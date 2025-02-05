@@ -24,4 +24,11 @@ public final class Constants {
     public static final int rightBackMotor = 1;
   }
 
+  public static class ElevatorConstants {
+    public static final int leftMotor = 8;
+    public static final int rightMotor = 9;
+    public static final int topLimSwitch = 6;
+    public static final int bottomLimSwitch = 7;
+  }
+
 }

@@ -12,7 +12,7 @@ import frc.robot.Constants.DriveConstants;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import java.util.function.DoubleSupplier;
+// import java.util.function.DoubleSupplier;
 
 import com.revrobotics.spark.SparkMax;
 
@@ -42,11 +42,11 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command driveArcadeCommand(DriveSubsystem driveSubsystem, DoubleSupplier xSpeed, DoubleSupplier zRotation) {
+  public Command driveArcadeCommand(DriveSubsystem driveSubsystem, Double xSpeed, Double zRotation) {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return Commands.run(
-        () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble()), driveSubsystem);
+        () -> drive.arcadeDrive(xSpeed, zRotation), driveSubsystem);
   }
   
 

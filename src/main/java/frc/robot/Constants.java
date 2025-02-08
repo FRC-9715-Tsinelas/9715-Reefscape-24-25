@@ -33,6 +33,9 @@ public final class Constants {
     public static final int encoderB = 7;
     // Coefficient to convert motor revolutions to the elevator height (inches).
     // DIAMETER from CAD * [Rotation/360deg] * pi
-    public static final double revsToHeightIn = 1.9685 * Math.PI;
+    public static final double revsToHeightIn = 1.887658 * Math.PI;
+    // TODO: change PID values
+    public static double kp = 1.0; public static double ki = 1.0; public static double kd = 1.0;
+    public static double userPosChangeRate = 0.1;
   }
 }

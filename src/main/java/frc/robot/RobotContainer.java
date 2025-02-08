@@ -58,7 +58,8 @@ public class RobotContainer {
     driveSubsystem.setDefaultCommand(
       driveSubsystem.driveArcadeCommand(
         driveSubsystem, m_driverController.getLeftX(), m_driverController.getRightY()));
-    
+    m_driverController.povUp().onTrue(elevatorSubsystem.userPosChangeCommand(true, m_driverController));
+    m_driverController.povDown().onTrue(elevatorSubsystem.userPosChangeCommand(false, m_driverController));
   }
 
   /**

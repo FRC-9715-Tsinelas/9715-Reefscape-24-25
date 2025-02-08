@@ -35,5 +35,4 @@ public final class Constants {
     // DIAMETER from CAD * [Rotation/360deg] * pi
     public static final double revsToHeightIn = 1.9685 * Math.PI;
   }
-
 }

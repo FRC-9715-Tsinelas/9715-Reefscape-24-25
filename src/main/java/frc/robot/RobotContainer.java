@@ -55,7 +55,7 @@ public class RobotContainer {
   private void configureBindings() {
     driveSubsystem.setDefaultCommand(
       driveSubsystem.driveArcadeCommand(
-        driveSubsystem, m_driverController.getLeftX(), m_driverController.getRightY()));
+        driveSubsystem, () -> m_driverController.getLeftX(), () -> m_driverController.getRightY()));
     
   }
 

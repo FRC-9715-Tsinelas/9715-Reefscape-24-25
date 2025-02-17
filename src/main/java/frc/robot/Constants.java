@@ -28,7 +28,7 @@ public final class Constants {
     public static final int leftMotor = 10;
     public static final int rightMotor = 11;
     public static final int topLimSwitch = 12;
-    // public static final int bottomLimSwitch = 7;
+    public static final int bottomLimSwitch = 9;
     public static final int encoderA = 13;
     public static final int encoderB = 14;
     // Coefficient to convert motor revolutions to the elevator height (inches).

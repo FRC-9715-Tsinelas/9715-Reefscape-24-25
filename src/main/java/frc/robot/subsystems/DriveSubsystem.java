@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import java.util.function.DoubleSupplier;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -25,14 +26,15 @@ public class DriveSubsystem extends SubsystemBase {
   private final SparkMax r2 = new SparkMax(DriveConstants.rightBackMotor, MotorType.kBrushless);
   DifferentialDrive drive = new DifferentialDrive(
     (double output) -> {
-        l1.set(output);
-        l2.set(output);
+        l1.set(output*0.8);
+        l2.set(output*0.8);
     },
     (double output) -> {
         r1.set(output);
         r2.set(output);
     });
   public DriveSubsystem() {
+    drive.setDeadband(0.02);
 
   }
   
@@ -42,11 +44,11 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command driveArcadeCommand(DriveSubsystem driveSubsystem, Double xSpeed, Double zRotation) {
+  public Command driveArcadeCommand(DriveSubsystem driveSubsystem, DoubleSupplier xSpeed, DoubleSupplier zRotation) {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return Commands.run(
-        () -> drive.arcadeDrive(xSpeed, zRotation), driveSubsystem);
+        () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble()), driveSubsystem);
   }
   
 

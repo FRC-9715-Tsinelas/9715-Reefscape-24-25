@@ -25,12 +25,12 @@ public final class Constants {
   }
 
   public static class ElevatorConstants {
-    public static final int leftMotor = 8;
-    public static final int rightMotor = 9;
-    public static final int topLimSwitch = 6;
+    public static final int leftMotor = 10;
+    public static final int rightMotor = 11;
+    public static final int topLimSwitch = 12;
     // public static final int bottomLimSwitch = 7;
-    public static final int encoderA = 5;
-    public static final int encoderB = 7;
+    public static final int encoderA = 13;
+    public static final int encoderB = 14;
     // Coefficient to convert motor revolutions to the elevator height (inches).
     // DIAMETER from CAD * [Rotation/360deg] * pi
     public static final double revsToHeightIn = 1.887658 * Math.PI;

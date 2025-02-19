@@ -38,12 +38,4 @@ public final class Constants {
     public static double kp = 1.0; public static double ki = 1.0; public static double kd = 1.0;
     public static double userPosChangeRate = 0.1;
   }
-
-  public static class ElevatorConstants {
-    public static final int leftMotor = 8;
-    public static final int rightMotor = 9;
-    public static final int topLimSwitch = 6;
-    public static final int bottomLimSwitch = 7;
-  }
-
 }

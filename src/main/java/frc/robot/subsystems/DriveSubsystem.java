@@ -26,15 +26,15 @@ public class DriveSubsystem extends SubsystemBase {
   private final SparkMax r2 = new SparkMax(DriveConstants.rightBackMotor, MotorType.kBrushless);
   DifferentialDrive drive = new DifferentialDrive(
     (double output) -> {
-        l1.set(output*0.8);
-        l2.set(output*0.8);
+        l1.set(output*0.7);
+        l2.set(output*0.7);
     },
     (double output) -> {
         r1.set(output);
         r2.set(output);
     });
   public DriveSubsystem() {
-    drive.setDeadband(0.02);
+    drive.setDeadband(0.04);
 
   }
   

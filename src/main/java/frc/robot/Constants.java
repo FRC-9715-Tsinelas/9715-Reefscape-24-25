@@ -22,7 +22,7 @@ public final class Constants {
     public static final int rightFrontMotor = 2;
     public static final int rightBackMotor = 3;
     public static final int driveCurrentLimit = 20;
-    public static final int driveVoltageCompensation = 12;
+    public static final int driveVoltageCompensation = 14;
 
   }
 }

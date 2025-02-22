@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,6 +40,7 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Slow Auto 0.3 for 2 sec", slowAuto);
     autoChooser.addOption("Fast Auto 0.5 for 2 sec", fastAuto);
     SmartDashboard.putData("chooser boozer", autoChooser);
+    SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
 
 
   }

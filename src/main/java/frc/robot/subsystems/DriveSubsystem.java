@@ -49,6 +49,11 @@ public class DriveSubsystem extends SubsystemBase {
     l2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     config.follow(r1);
     r2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    config.disableFollowerMode();
+    l1.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    
     config.inverted(true);
     r1.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 

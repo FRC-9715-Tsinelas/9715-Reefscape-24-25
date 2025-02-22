@@ -29,14 +29,17 @@ public class DriveSubsystem extends SubsystemBase {
   private final SparkMax r1 = new SparkMax(DriveConstants.rightFrontMotor, MotorType.kBrushless);
   private final SparkMax r2 = new SparkMax(DriveConstants.rightBackMotor, MotorType.kBrushless);
   
+  // IRL: first output is right side, second is left
   DifferentialDrive drive = new DifferentialDrive(
     (double output) -> {
         l1.set(output*0.7);
         l2.set(output*0.7);
+        // System.out.println("Right side: "+ -output);
     },
     (double output) -> {
         r1.set(output);
         r2.set(output);
+        // System.out.println("Left side: "+ -output);
     });
   // DifferentialDrive drive = new DifferentialDrive(l1, r1);
 
@@ -44,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase {
     SparkMaxConfig config = new SparkMaxConfig();
     config.voltageCompensation(DriveConstants.driveVoltageCompensation);
     config.smartCurrentLimit(DriveConstants.driveCurrentLimit);
-    config.idleMode(IdleMode.kBrake);
+    config.idleMode(IdleMode.kCoast);
     config.follow(l1);
     l2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     config.follow(r1);
@@ -70,7 +73,8 @@ public class DriveSubsystem extends SubsystemBase {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return Commands.run(
-        () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble()), driveSubsystem);
+        () -> 
+          drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble()), driveSubsystem);
   }
   
 
@@ -86,6 +90,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    System.out.printf("->1 vel: %.3f, out: %.3f\n", r1.getEncoder().getVelocity(), r1.getAppliedOutput());
+    System.out.printf("->2 vel: %.3f, out: %.3f\n", r2.getEncoder().getVelocity(), r1.getAppliedOutput());
+    System.out.printf("<-1 vel: %.3f, out: %.3f\n", l1.getEncoder().getVelocity(), l1.getAppliedOutput());
+    System.out.printf("<-2 vel: %.3f, out: %.3f\n", l2.getEncoder().getVelocity(), l2.getAppliedOutput());
     // This method will be called once per scheduler run
   }
 

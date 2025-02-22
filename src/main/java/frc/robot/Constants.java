@@ -21,5 +21,8 @@ public final class Constants {
     public static final int leftBackMotor = 5;
     public static final int rightFrontMotor = 2;
     public static final int rightBackMotor = 3;
+    public static final int driveCurrentLimit = 20;
+    public static final int driveVoltageCompensation = 12;
+
   }
 }

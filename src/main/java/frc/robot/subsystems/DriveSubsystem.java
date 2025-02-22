@@ -12,6 +12,10 @@ import frc.robot.Constants.DriveConstants;
 import java.util.function.DoubleSupplier;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 
 // import java.util.function.DoubleSupplier;
 
@@ -24,6 +28,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final SparkMax l2 = new SparkMax(DriveConstants.leftBackMotor, MotorType.kBrushless);
   private final SparkMax r1 = new SparkMax(DriveConstants.rightFrontMotor, MotorType.kBrushless);
   private final SparkMax r2 = new SparkMax(DriveConstants.rightBackMotor, MotorType.kBrushless);
+  
   DifferentialDrive drive = new DifferentialDrive(
     (double output) -> {
         l1.set(output*0.7);
@@ -33,9 +38,21 @@ public class DriveSubsystem extends SubsystemBase {
         r1.set(output);
         r2.set(output);
     });
-  public DriveSubsystem() {
-    drive.setDeadband(0.04);
+  // DifferentialDrive drive = new DifferentialDrive(l1, r1);
 
+  public DriveSubsystem() {
+    SparkMaxConfig config = new SparkMaxConfig();
+    config.voltageCompensation(DriveConstants.driveVoltageCompensation);
+    config.smartCurrentLimit(DriveConstants.driveCurrentLimit);
+    config.idleMode(IdleMode.kBrake);
+    config.follow(l1);
+    l2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    config.follow(r1);
+    r2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    config.inverted(true);
+    r1.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    drive.setDeadband(0.04);
   }
   
 

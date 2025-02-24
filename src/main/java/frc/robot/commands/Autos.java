@@ -15,6 +15,7 @@ public final class Autos {
   }
   public static final Command slowAuto(DriveSubsystem driveSubsystem) {
     return driveSubsystem.driveArcadeCommand(driveSubsystem, () -> 0.3, () -> 0.0).withTimeout(2.0);
+
   }
 
   private Autos() {

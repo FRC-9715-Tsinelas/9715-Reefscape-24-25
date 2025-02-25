@@ -23,6 +23,16 @@ public final class Constants {
     public static final int rightBackMotor = 3;
     public static final int driveCurrentLimit = 20;
     public static final int driveVoltageCompensation = 14;
+  }
+  public static class ElevatorConstants {
+    public static final double kP = 0.1;
+    public static final double kD = 0.0;
+    public static final double kI = 0.0;
+    public static final double kIZone = 0.0;
+    public static final double kMaxVelocity = 65;
+    public static final double kMaxAcceleration = 200;
+    public static final double kMaxCurrent = 40;
+
 
   }
 }

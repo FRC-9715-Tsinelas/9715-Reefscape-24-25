@@ -52,19 +52,20 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     SparkMaxConfig config = new SparkMaxConfig();
-    config.voltageCompensation(DriveConstants.driveVoltageCompensation);
-    config.smartCurrentLimit(DriveConstants.driveCurrentLimit);
-    config.idleMode(IdleMode.kCoast);
-    config.follow(r1);
+    config = (SparkMaxConfig)
+    config.voltageCompensation(DriveConstants.driveVoltageCompensation)
+          .smartCurrentLimit(DriveConstants.driveCurrentLimit)
+          .idleMode(IdleMode.kCoast)
+          .follow(r1);
     r2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    config.follow(l1);
+
+    config = (SparkMaxConfig) config.follow(l1);
     l2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     SparkMaxConfig newConfig = (SparkMaxConfig) config.disableFollowerMode();
     r1.configure(newConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    
-    newConfig.inverted(true);
+    newConfig = (SparkMaxConfig) newConfig.inverted(true);
     l1.configure(newConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     drive.setDeadband(0.04);

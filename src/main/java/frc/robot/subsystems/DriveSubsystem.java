@@ -32,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
   // IRL: first output is right side, second is left
   DifferentialDrive drive = new DifferentialDrive(
     (double output) -> {
-        r1.set(-output);
+        r1.set(output);
         r2.set(output);
         // System.out.println("Right side: "+ -output);
     },

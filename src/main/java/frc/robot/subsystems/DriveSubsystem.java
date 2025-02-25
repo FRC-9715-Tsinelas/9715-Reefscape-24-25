@@ -60,12 +60,12 @@ public class DriveSubsystem extends SubsystemBase {
     config.follow(l1);
     l2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    config.disableFollowerMode();
-    r1.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    SparkMaxConfig newConfig = (SparkMaxConfig) config.disableFollowerMode();
+    r1.configure(newConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     
-    config.inverted(true);
-    l1.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    newConfig.inverted(true);
+    l1.configure(newConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     drive.setDeadband(0.04);
   }

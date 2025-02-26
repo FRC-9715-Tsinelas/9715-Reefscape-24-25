@@ -61,7 +61,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     config.voltageCompensation(DriveConstants.driveVoltageCompensation)
           .smartCurrentLimit(DriveConstants.driveCurrentLimit)
-          .idleMode(IdleMode.kCoast);
+          .idleMode(IdleMode.kBrake);
     
     // set configuration to follow leader motor, which is then applied to follower motor
     config.follow(l1);

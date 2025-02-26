@@ -37,8 +37,8 @@ public class DriveSubsystem extends SubsystemBase {
         // System.out.println("Right side: "+ -output);
     },
     (double output) -> {
-        l1.set(output*0.7);
-        l2.set(output*0.7);
+        l1.set(output);
+        l2.set(output);
         // System.out.println("Left side: "+ -output);
     });
   // DifferentialDrive drive = new DifferentialDrive(r1, l1);

@@ -14,11 +14,9 @@ import java.util.function.DoubleSupplier;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-
-// import java.util.function.DoubleSupplier;
-
 import com.revrobotics.spark.SparkMax;
 
 
@@ -28,6 +26,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final SparkMax r2 = new SparkMax(DriveConstants.rightBackMotor, MotorType.kBrushless);
   private final SparkMax l1 = new SparkMax(DriveConstants.leftFrontMotor, MotorType.kBrushless);
   private final SparkMax l2 = new SparkMax(DriveConstants.leftBackMotor, MotorType.kBrushless);
+  private final RelativeEncoder mLeftEncoder;
+  private final RelativeEncoder mRightEncoder;
   
   // IRL: first output is right side, second is left
   DifferentialDrive drive = new DifferentialDrive(
@@ -45,17 +45,24 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {
 
-    r1.setCANTimeout(250);
-    r2.setCANTimeout(250);
-    l1.setCANTimeout(250);
-    l2.setCANTimeout(250);
+    // r1.setCANTimeout(250);
+    // r2.setCANTimeout(250);
+    // l1.setCANTimeout(250);
+    // l2.setCANTimeout(250);
 
 
+    mLeftEncoder = l1.getEncoder();
+    mRightEncoder = r1.getEncoder();
+    mLeftEncoder.setPosition(0.0);
+    mRightEncoder.setPosition(0.0);
+
+    
     SparkMaxConfig config = new SparkMaxConfig();
     config.voltageCompensation(DriveConstants.driveVoltageCompensation);
     config.smartCurrentLimit(DriveConstants.driveCurrentLimit);
     config.idleMode(IdleMode.kCoast);
     config.follow(r1);
+    
     r2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     config.follow(l1);
     l2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

@@ -10,6 +10,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
 
 public class ElevatorSubsystem extends SubsystemBase {
@@ -17,6 +19,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   private TrapezoidProfile mProfile;
   private TrapezoidProfile.State mCurState = new TrapezoidProfile.State();
   private TrapezoidProfile.State mGoalState = new TrapezoidProfile.State();
+  private final SparkMax mLeftMotor = new SparkMax(ElevatorConstants.leftMotor, MotorType.kBrushless);
+  private final SparkMax mRightMotor = new SparkMax(ElevatorConstants.rightMotor, MotorType.kBrushless);
+  
+
 
 
 
@@ -25,7 +31,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     SparkMaxConfig elevatorConfig = new SparkMaxConfig();
     elevatorConfig.closedLoop.pid(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD).iZone(ElevatorConstants.kIZone);
     elevatorConfig.smartCurrentLimit(ElevatorConstants.kMaxCurrent)
-                  .idleMode(IdleMode.kBrake);
+                  .idleMode(IdleMode.kBrake)
+                  .limitSwitch.reverseLimitSwitchEnabled(true);
+    // LEFT ELEVATOR MOTOR
+    
+
 
 
 

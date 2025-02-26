@@ -21,7 +21,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   private TrapezoidProfile.State mGoalState = new TrapezoidProfile.State();
   private final SparkMax mLeftMotor = new SparkMax(ElevatorConstants.leftMotor, MotorType.kBrushless);
   private final SparkMax mRightMotor = new SparkMax(ElevatorConstants.rightMotor, MotorType.kBrushless);
-  
 
 
 

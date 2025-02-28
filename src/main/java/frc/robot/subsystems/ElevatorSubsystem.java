@@ -15,7 +15,6 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import org.opencv.ml.Ml;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -81,6 +80,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     if (mPeriodicIO.is_elevator_pos_control) {;
       // update goal
       mGoalState.position = mPeriodicIO.elevator_target;
+      // elevator target is set when button is pressed
       // calculate new state
       prevUpdateTime = curTime;
       mCurState = mProfile.calculate(dt, mCurState, mGoalState);
@@ -118,12 +118,23 @@ public class ElevatorSubsystem extends SubsystemBase {
     return run(() -> elevatorStow());
   }
 
+  public Command stopElevator() {
+    return run(() -> stop());
+  }
+
   public ElevatorState getstate() {
     return mPeriodicIO.state;
   }
+  
   public void setelevatorpower(double power) {
     mPeriodicIO.is_elevator_pos_control = false;
     mPeriodicIO.elevator_power = power;
+  }
+
+  public void stop(){
+    mPeriodicIO.is_elevator_pos_control = false;
+    mPeriodicIO.elevator_power = 0.0;
+    mLeftMotor.set(0.0);
   }
 
   public void elevatorStow(){

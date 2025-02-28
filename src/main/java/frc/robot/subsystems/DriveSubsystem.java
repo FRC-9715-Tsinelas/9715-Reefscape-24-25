@@ -97,10 +97,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.printf("->1 vel: %.3f, out: %.3f\n", l1.getEncoder().getVelocity(), l1.getAppliedOutput());
-    System.out.printf("->2 vel: %.3f, out: %.3f\n", l2.getEncoder().getVelocity(), l1.getAppliedOutput());
-    System.out.printf("<-1 vel: %.3f, out: %.3f\n", r1.getEncoder().getVelocity(), r1.getAppliedOutput());
-    System.out.printf("<-2 vel: %.3f, out: %.3f\n", r2.getEncoder().getVelocity(), r2.getAppliedOutput());
+    // System.out.printf("->1 vel: %.3f, out: %.3f\n", l1.getEncoder().getVelocity(), l1.getAppliedOutput());
+    // System.out.printf("->2 vel: %.3f, out: %.3f\n", l2.getEncoder().getVelocity(), l1.getAppliedOutput());
+    // System.out.printf("<-1 vel: %.3f, out: %.3f\n", r1.getEncoder().getVelocity(), r1.getAppliedOutput());
+    // System.out.printf("<-2 vel: %.3f, out: %.3f\n", r2.getEncoder().getVelocity(), r2.getAppliedOutput());
     // This method will be called once per scheduler run
   }
 

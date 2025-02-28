@@ -30,10 +30,18 @@ public final class Constants {
     public static final double kP = 0.1;
     public static final double kD = 0.0;
     public static final double kI = 0.0;
-    public static final double kIZone = 0.0;
-    public static final double kMaxVelocity = 65.0;
-    public static final double kMaxAcceleration = 200.0;
-    public static final int kMaxCurrent = 40;
+    public static final double kIZone = 5.0;
+    public static final double kG = 0.5;
+    public static final double kMaxVelocity = 20;
+    public static final double kMaxAcceleration = 20;
+    public static final int kMaxCurrent = 20;
+
+    // NOTE: L1 may be lower than height to recieve coral
+    public static final double kStowHeight = 0.0;
+    public static final double kL1Height = 3.0;
+    public static final double kL2Height = 9.0;
+
+
 
 
 

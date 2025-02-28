@@ -7,15 +7,21 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import org.opencv.ml.Ml;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController.ArbFFUnits;
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
 
 public class ElevatorSubsystem extends SubsystemBase {
@@ -28,33 +34,113 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final RelativeEncoder mLeftEncoder;
   private final RelativeEncoder mRightEncoder;
   private final SparkClosedLoopController mLeftPIDController;
-  
+  private PeriodicIO mPeriodicIO;
+  private double prevUpdateTime = Timer.getFPGATimestamp();
 
   public ElevatorSubsystem() {
+    mPeriodicIO = new PeriodicIO();
     SparkMaxConfig elevatorConfig = new SparkMaxConfig();
     elevatorConfig.closedLoop.pid(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD).iZone(ElevatorConstants.kIZone);
     elevatorConfig.smartCurrentLimit(ElevatorConstants.kMaxCurrent)
                   .idleMode(IdleMode.kBrake)
                   .limitSwitch.reverseLimitSwitchEnabled(true);
+
     // LEFT ELEVATOR MOTOR
     mLeftEncoder = mLeftMotor.getEncoder();
     mLeftPIDController = mLeftMotor.getClosedLoopController();
+    // https://docs.revrobotics.com/revlib/spark/closed-loop/position-control-mode
     mLeftMotor.configure(elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     
     // RIGHT ELEVATOR MOTOR
     mRightEncoder = mRightMotor.getEncoder();
-    mRightMotor.configure(elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    mRightMotor.configure(elevatorConfig.follow(mLeftMotor, true), ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     // TRAPEZOID PROFILE
     mProfile = new TrapezoidProfile(new TrapezoidProfile.Constraints(ElevatorConstants.kMaxVelocity, ElevatorConstants.kMaxAcceleration));
-
-    
-
-    
+  }
+  public enum ElevatorState {
+    NONE,
+    STOW,
+    L1,
+    L2
+  }
+  private static class PeriodicIO {
+    // elevator data to be updated in periodic
+    double elevator_target = 0.0;
+    double elevator_power = 0.0;
+    boolean is_elevator_pos_control = false;
+    ElevatorState state = ElevatorState.STOW;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    double curTime = Timer.getFPGATimestamp();
+    double dt = curTime - prevUpdateTime;
+    prevUpdateTime = curTime;
+    if (mPeriodicIO.is_elevator_pos_control) {;
+      // update goal
+      mGoalState.position = mPeriodicIO.elevator_target;
+      // calculate new state
+      prevUpdateTime = curTime;
+      mCurState = mProfile.calculate(dt, mCurState, mGoalState);
+      // set PID controller to new state
+      // still need to understand this
+      mLeftPIDController.setReference(
+        mCurState.position, 
+        SparkBase.ControlType.kPosition, 
+        ClosedLoopSlot.kSlot0, 
+        ElevatorConstants.kG,
+        ArbFFUnits.kVoltage);
+  } 
+  else {
+      // not using position control
+      mCurState.position = mLeftEncoder.getPosition();
+      mCurState.velocity = 0;
+      mLeftMotor.set(mPeriodicIO.elevator_power);
   }
+  }
+
+  // ----------------- COMMANDS ----------------
+  public Command getState() {
+    return run(() -> getstate());
+  }
+  public Command setElevatorPower(double power) {
+    return run(() -> setelevatorpower(power));
+  }
+  public Command goToElevatorL1() {
+    return run(() -> elevatorL1());
+  }
+  public Command goToElevatorL2() {
+    return run(() -> elevatorL2());
+  }
+  public Command goToElevatorStow() {
+    return run(() -> elevatorStow());
+  }
+
+  public ElevatorState getstate() {
+    return mPeriodicIO.state;
+  }
+  public void setelevatorpower(double power) {
+    mPeriodicIO.is_elevator_pos_control = false;
+    mPeriodicIO.elevator_power = power;
+  }
+
+  public void elevatorStow(){
+    mPeriodicIO.is_elevator_pos_control = true;
+    mPeriodicIO.elevator_target = ElevatorConstants.kStowHeight;
+    mPeriodicIO.state = ElevatorState.STOW;
+  }
+  public void elevatorL1() {
+    mPeriodicIO.is_elevator_pos_control = true;
+    mPeriodicIO.elevator_target = ElevatorConstants.kL1Height;
+    mPeriodicIO.state = ElevatorState.L1;
+    System.out.println("Elevator moved to L1");
+  }
+  public void elevatorL2(){
+    mPeriodicIO.is_elevator_pos_control = true;
+    mPeriodicIO.elevator_target = ElevatorConstants.kL2Height;
+    mPeriodicIO.state = ElevatorState.L2;
+  }
+
 }

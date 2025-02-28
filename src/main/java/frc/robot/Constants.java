@@ -23,6 +23,13 @@ public final class Constants {
     public static final int rightBackMotor = 3;
     public static final int driveCurrentLimit = 20;
     public static final int driveVoltageCompensation = 14;
+  }
+  public static class IntakeConstants {
+    public static final int intakeLeftMotor = 9;
+    public static final int intakeRightMotor = 10;
+    public static final int kLaserId = 11;
+
 
   }
+  
 }

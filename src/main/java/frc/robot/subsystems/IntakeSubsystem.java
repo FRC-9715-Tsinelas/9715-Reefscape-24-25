@@ -32,10 +32,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   }
   void L1(){
-    mLeftMotor.set(0.5);
+    mLeftMotor.set(IntakeConstants.intakeL1Speed);
   }
   void L2(){
-    mLeftMotor.set(0.7);
+    mLeftMotor.set(IntakeConstants.intakeL2Speed);
   }
   void stop(){
     mLeftMotor.set(0);

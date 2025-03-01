@@ -25,7 +25,7 @@ public final class Constants {
     public static final int driveVoltageCompensation = 14;
   }
   public static class ElevatorConstants {
-    public static final int leftMotor = 6;
+    public static final int leftMotor = 15;
     public static final int rightMotor = 11;
     public static final double kP = 0.05;
     public static final double kD = 0.0;

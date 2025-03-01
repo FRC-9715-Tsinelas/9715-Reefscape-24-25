@@ -145,12 +145,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     mPeriodicIO.is_elevator_pos_control = true;
     mPeriodicIO.elevator_target = ElevatorConstants.kL1Height;
     mPeriodicIO.state = ElevatorState.L1;
-    System.out.println("Elevator moved to L1");
+    
   }
   public void elevatorL2(){
     mPeriodicIO.is_elevator_pos_control = true;
     mPeriodicIO.elevator_target = ElevatorConstants.kL2Height;
     mPeriodicIO.state = ElevatorState.L2;
+    System.out.println("Elevator moved to L2");
   }
 
 }

@@ -66,10 +66,13 @@ public class RobotContainer {
       elevatorSubsystem.goToElevatorStow()
     );
     m_driverController.a().onTrue(
-      elevatorSubsystem.goToElevatorL1()
+      elevatorSubsystem.goToElevatorL2()
     );
     m_driverController.y().onTrue(
-      elevatorSubsystem.goToElevatorL2()
+      elevatorSubsystem.stopElevator()
+    );
+    m_driverController.b().onTrue(
+      elevatorSubsystem.setElevatorPower(0.1)
     );
     
   }

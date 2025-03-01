@@ -72,7 +72,7 @@ public class RobotContainer {
       elevatorSubsystem.stopElevator()
     );
     m_driverController.b().onTrue(
-      elevatorSubsystem.setElevatorPower(0.1)
+      elevatorSubsystem.setElevatorPower(-0.1)
     );
     
   }

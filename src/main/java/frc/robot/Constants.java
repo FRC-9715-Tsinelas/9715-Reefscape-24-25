@@ -40,10 +40,10 @@ public final class Constants {
     public static final double kStowHeight = 0.0;
     public static final double kL1Height = 1.0;
     public static final double kL2Height = -115.0;
-
-
-
-
-
+  }
+  public static class IntakeConstants {
+    public static final int intakeleftMotor = 10;
+    public static final int intakerightMotor = 12;
+    public static final int kMaxCurrent = 40;
   }
 }

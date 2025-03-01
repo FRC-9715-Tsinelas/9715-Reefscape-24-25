@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +26,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   // autonomous routines/commands
   private final Command slowAuto = Autos.slowAuto(driveSubsystem);
   private final Command fastAuto = Autos.fastAuto(driveSubsystem);
@@ -74,6 +76,14 @@ public class RobotContainer {
     m_driverController.b().onTrue(
       elevatorSubsystem.goToElevatorStow()
     );
+    m_driverController.leftBumper().onTrue(
+      intakeSubsystem.scoreL1()
+    );
+    m_driverController.rightBumper().onTrue(
+      intakeSubsystem.intakeStop()
+    );
+
+
     
   }
 

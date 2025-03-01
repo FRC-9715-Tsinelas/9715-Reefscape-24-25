@@ -134,6 +134,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     mPeriodicIO.is_elevator_pos_control = false;
     mPeriodicIO.elevator_power = 0.0;
     mLeftMotor.set(0.0);
+    System.out.println("stopped");
   }
 
   public void elevatorStow(){

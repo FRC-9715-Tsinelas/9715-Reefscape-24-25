@@ -109,10 +109,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.printf("->1 vel: %.3f, out: %.3f, current: %.3f\n", mLeftEncoder.getVelocity(), l1.getAppliedOutput(), l1.getOutputCurrent());
-    System.out.printf("->1 vel: %.3f, out: %.3f, current: %.3f\n", l2.getEncoder().getVelocity(), l2.getAppliedOutput(), l2.getOutputCurrent());
-    System.out.printf("->1 vel: %.3f, out: %.3f, current: %.3f\n", mRightEncoder.getVelocity(), r1.getAppliedOutput(), r1.getOutputCurrent());
-    System.out.printf("->1 vel: %.3f, out: %.3f, current: %.3f\n", r2.getEncoder().getVelocity(), r2.getAppliedOutput(), r2.getOutputCurrent());
+    // System.out.printf("->1 vel: %.3f, out: %.3f, current: %.3f\n", mLeftEncoder.getVelocity(), l1.getAppliedOutput(), l1.getOutputCurrent());
+    // System.out.printf("->1 vel: %.3f, out: %.3f, current: %.3f\n", l2.getEncoder().getVelocity(), l2.getAppliedOutput(), l2.getOutputCurrent());
+    // System.out.printf("->1 vel: %.3f, out: %.3f, current: %.3f\n", mRightEncoder.getVelocity(), r1.getAppliedOutput(), r1.getOutputCurrent());
+    // System.out.printf("->1 vel: %.3f, out: %.3f, current: %.3f\n", r2.getEncoder().getVelocity(), r2.getAppliedOutput(), r2.getOutputCurrent());
     // This method will be called once per scheduler run
   }
 

@@ -45,7 +45,7 @@ public final class Constants {
     public static final int intakeleftMotor = 10;
     public static final int intakerightMotor = 12;
     public static final int kMaxCurrent = 40;
-    public static final double intakeL1Speed = 0.3;
+    public static final double intakeL1Speed = 0.25;
     public static final double intakeL2Speed = 0.6;
   }
 }

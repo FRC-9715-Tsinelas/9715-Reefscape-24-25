@@ -41,8 +41,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     SparkMaxConfig elevatorConfig = new SparkMaxConfig();
     elevatorConfig.closedLoop.pid(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD).iZone(ElevatorConstants.kIZone);
     elevatorConfig.smartCurrentLimit(ElevatorConstants.kMaxCurrent)
-                  .idleMode(IdleMode.kBrake)
-                  .limitSwitch.reverseLimitSwitchEnabled(true);
+                  .idleMode(IdleMode.kBrake);
 
     // LEFT ELEVATOR MOTOR
     mLeftEncoder = mLeftMotor.getEncoder();

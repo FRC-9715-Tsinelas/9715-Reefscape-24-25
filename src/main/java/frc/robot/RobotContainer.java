@@ -71,7 +71,7 @@ public class RobotContainer {
       elevatorSubsystem.goToElevatorL2()
     );
     m_driverController.y().onTrue(
-      elevatorSubsystem.stopElevator()
+      intakeSubsystem.intakeStop()
     );
     m_driverController.b().onTrue(
       elevatorSubsystem.goToElevatorStow()
@@ -80,7 +80,7 @@ public class RobotContainer {
       intakeSubsystem.scoreL1()
     );
     m_driverController.rightBumper().onTrue(
-      intakeSubsystem.intakeStop()
+      intakeSubsystem.scoreL2()
     );
 
 

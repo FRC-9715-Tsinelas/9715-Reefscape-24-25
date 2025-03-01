@@ -35,7 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
     mLeftMotor.set(0.5);
   }
   void L2(){
-    mLeftMotor.set(1.0);
+    mLeftMotor.set(0.7);
   }
   void stop(){
     mLeftMotor.set(0);
@@ -46,6 +46,9 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   public Command intakeStop(){
     return run(() -> stop());
+  }
+  public Command scoreL2(){
+    return run(() -> L2());
   }
   
 

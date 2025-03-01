@@ -28,7 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeConfig.idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(IntakeConstants.kMaxCurrent);
     mLeftMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    mRightMotor.configure(intakeConfig.follow(mLeftMotor), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    mRightMotor.configure(intakeConfig.follow(mLeftMotor, true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
   }
   void L1(){

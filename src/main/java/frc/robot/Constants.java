@@ -25,8 +25,8 @@ public final class Constants {
     public static final int driveVoltageCompensation = 14;
   }
   public static class IntakeConstants {
-    public static final int intakeLeftMotor = 9;
-    public static final int intakeRightMotor = 10;
+    public static final int intakeLeftMotor = 10;
+    public static final int intakeRightMotor = 12;
     public static final int kLaserId = 11;
 
 

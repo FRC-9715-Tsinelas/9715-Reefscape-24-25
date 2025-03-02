@@ -27,19 +27,19 @@ public final class Constants {
   public static class ElevatorConstants {
     public static final int leftMotor = 15;
     public static final int rightMotor = 11;
-    public static final double kP = 0.15 ;
+    public static final double kP = 0.2 ;
     public static final double kD = 0.0;
     public static final double kI = 0.0;
     public static final double kIZone = 5.0;
     public static final double kG = 0.5;
-    public static final double kMaxVelocity = 65;
-    public static final double kMaxAcceleration = 200;
-    public static final int kMaxCurrent = 40;
+    public static final double kMaxVelocity = 170;
+    public static final double kMaxAcceleration = 450;
+    public static final int kMaxCurrent = 50;
 
     // NOTE: L1 may be lower than height to recieve coral
     public static final double kStowHeight = 0.0;
     public static final double kL1Height = 1.0;
-    public static final double kL2Height = -115.0;
+    public static final double kL2Height = -105.0;
   }
   public static class IntakeConstants {
     public static final int intakeleftMotor = 10;

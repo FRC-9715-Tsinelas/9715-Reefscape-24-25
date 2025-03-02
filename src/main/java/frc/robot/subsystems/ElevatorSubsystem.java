@@ -74,10 +74,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (!limitswitch.get() && (mPeriodicIO.state == ElevatorState.STOW)){
-      System.out.println("Limit switch hit!");
-      stop();
-    }
+    // if (!limitswitch.get() && (mPeriodicIO.state == ElevatorState.STOW)){
+    //   System.out.println("Limit switch hit!");
+    //   stop();
+    // }
     double curTime = Timer.getFPGATimestamp();
     double dt = curTime - prevUpdateTime;
     prevUpdateTime = curTime;

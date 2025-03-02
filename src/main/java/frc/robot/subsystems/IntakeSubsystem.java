@@ -28,17 +28,34 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeConfig.idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(IntakeConstants.kMaxCurrent);
     mLeftMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    mRightMotor.configure(intakeConfig.follow(mLeftMotor, true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    intakeConfig.inverted(true);
+    mRightMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
   }
   void L1(){
-    mLeftMotor.set(IntakeConstants.intakeL1Speed);
+    if (mLeftMotor.getAppliedOutput() > 0.1){
+      System.out.println(mLeftMotor.getAppliedOutput());
+      stop();
+    }
+    else {
+      mLeftMotor.set(IntakeConstants.intakeLL1Speed);
+      mRightMotor.set(IntakeConstants.intakeLR1Speed);
+    }
+    
   }
   void L2(){
-    mLeftMotor.set(IntakeConstants.intakeL2Speed);
+    if (mLeftMotor.getAppliedOutput() > 0.1){
+      System.out.println(mLeftMotor.getAppliedOutput());
+      stop();
+    }
+    else{
+      mLeftMotor.set(IntakeConstants.intakeL2Speed);
+      mRightMotor.set(IntakeConstants.intakeL2Speed);
+    }
   }
   void stop(){
     mLeftMotor.set(0);
+    mRightMotor.set(0);
   }
 
   public Command scoreL1(){

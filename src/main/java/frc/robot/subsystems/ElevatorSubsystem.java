@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,6 +36,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final SparkClosedLoopController mLeftPIDController;
   private PeriodicIO mPeriodicIO;
   private double prevUpdateTime = Timer.getFPGATimestamp();
+  DigitalInput limitswitch = new DigitalInput(0);
 
   public ElevatorSubsystem() {
     mPeriodicIO = new PeriodicIO();
@@ -72,7 +74,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if (!limitswitch.get() && (mPeriodicIO.state == ElevatorState.STOW)){
+      System.out.println("Limit switch hit!");
+      stop();
+    }
     double curTime = Timer.getFPGATimestamp();
     double dt = curTime - prevUpdateTime;
     prevUpdateTime = curTime;

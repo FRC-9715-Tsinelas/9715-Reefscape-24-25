@@ -56,6 +56,7 @@ public class IntakeSubsystem extends SubsystemBase {
   void stop(){
     mLeftMotor.set(0);
     mRightMotor.set(0);
+    System.out.println("Intake stopped!");
   }
 
   public Command scoreL1(){

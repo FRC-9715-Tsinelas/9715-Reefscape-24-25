@@ -27,9 +27,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   final int L1 = 1;
   final int L2 = 2;
-  final int STOP = 0;
+  final int EMPTY = 0;
   final int STOWING = 3;
-  int status = STOP;
+  final int STOWED = 4;
+  int status = EMPTY;
   /** Creates a new IntakeSubsystem. */
 
   public IntakeSubsystem() {
@@ -51,7 +52,8 @@ public class IntakeSubsystem extends SubsystemBase {
   // L1 and L2 SEND OUT CORAL.
   // periodic() checks for CORAL INPUT.
   void L1(){
-    if (status != STOP) {
+    if (status == EMPTY) return;
+    if (status != STOWED) {
       stop();
     }
     else {
@@ -61,7 +63,8 @@ public class IntakeSubsystem extends SubsystemBase {
     
   }
   void L2(){
-    if (status != STOP){
+    if (status == EMPTY) return;
+    if (status != STOWED){
       stop();
     }
     else{
@@ -72,7 +75,7 @@ public class IntakeSubsystem extends SubsystemBase {
   void stop(){
     mLeftMotor.set(0);
     mRightMotor.set(0);
-    status = STOP;
+    status = EMPTY;
   }
 
   public Command scoreL1(){
@@ -87,16 +90,15 @@ public class IntakeSubsystem extends SubsystemBase {
   
   @Override
   public void periodic() {
-    // If coral present, run intake slowly to secure it.
     LaserCan.Measurement m;
     if ((m = lc.getMeasurement()) != null
         && m.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT
-        && m.distance_mm <= IntakeConstants.coralDistanceThresholdMm )
+        && m.distance_mm <= IntakeConstants.coralDistanceThresholdMm
+        && status == EMPTY )
     {
       mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
       mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
-    } else {
-      System.out.println("Target out of range OR invalid measurement");
+      status = STOWED;
     }
   }
 }

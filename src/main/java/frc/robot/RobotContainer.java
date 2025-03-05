@@ -70,7 +70,7 @@ public class RobotContainer {
     
     // elevator
     m_driverController.x().onTrue(
-      elevatorSubsystem.setElevatorPower(0.1)
+      intakeSubsystem.intakeStowCoral()
     );
     // ps4Controller.triangle().onTrue(
     //   elevatorSubsystem.goToElevatorL2()

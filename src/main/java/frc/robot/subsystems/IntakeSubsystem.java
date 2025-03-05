@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -43,6 +44,10 @@ public class IntakeSubsystem extends SubsystemBase {
     mRightMotor.set(0);
     System.out.println("Intake stopped!");
   }
+  void stowCoral(){
+    mLeftMotor.set(0.2);
+    mRightMotor.set(0.2);
+  }
 
   public Command scoreL1(){
     return run(() -> L1());
@@ -56,7 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command intakeStowCoral(){
     return runOnce(() -> {
       stowCoral();
-      Timer.delay(2);
+      Timer.delay(0.2);
       stop();
     });
   }

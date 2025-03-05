@@ -15,7 +15,7 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -66,10 +66,6 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
-
-
-
-
   void L1(){
     if (Math.abs(mLeftMotor.getAppliedOutput()) > 0.1){
       System.out.println(mLeftMotor.getAppliedOutput());
@@ -97,6 +93,11 @@ public class IntakeSubsystem extends SubsystemBase {
     mRightMotor.set(0);
   }
 
+  void stowCoral(){
+    mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
+    mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
+  }
+
   public Command scoreL1(){
     return run(() -> L1());
   }
@@ -105,5 +106,12 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   public Command scoreL2(){
     return run(() -> L2());
+  }
+  public Command intakeStowCoral(){
+    return runOnce(() -> {
+      stowCoral();
+      Timer.delay(2);
+      stop();
+    });
   }
 }

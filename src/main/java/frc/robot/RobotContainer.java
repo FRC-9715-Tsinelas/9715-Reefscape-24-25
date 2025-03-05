@@ -97,6 +97,9 @@ public class RobotContainer {
     m_driverController.rightBumper().onTrue(
       intakeSubsystem.scoreL2()
     );
+    ps4Controller.povUp().onTrue(
+      intakeSubsystem.intakeStowCoral()
+    );
 
   }
 

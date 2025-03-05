@@ -32,25 +32,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   void L1(){
-    if (Math.abs(mLeftMotor.getAppliedOutput()) > 0.1){
-      System.out.println(mLeftMotor.getAppliedOutput());
-      stop();
-    }
-    else {
-      mLeftMotor.set(IntakeConstants.intakeLL1Speed);
-      mRightMotor.set(IntakeConstants.intakeLR1Speed);
-    }
-    
+    stop();
   }
   void L2(){
-    if (Math.abs(mLeftMotor.getAppliedOutput()) > 0.1){
-      System.out.println(mLeftMotor.getAppliedOutput());
-      stop();
-    }
-    else{
-      mLeftMotor.set(IntakeConstants.intakeL2Speed);
-      mRightMotor.set(IntakeConstants.intakeL2Speed);
-    }
+    mLeftMotor.set(IntakeConstants.intakeL2Speed);
+    mRightMotor.set(IntakeConstants.intakeL2Speed);
   }
   void stop(){
     mLeftMotor.set(0);

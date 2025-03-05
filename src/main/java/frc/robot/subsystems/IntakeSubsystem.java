@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -30,10 +31,10 @@ public class IntakeSubsystem extends SubsystemBase {
     mLeftMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     intakeConfig.inverted(true);
     mRightMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
   }
+
   void L1(){
-    if (mLeftMotor.getAppliedOutput() > 0.1){
+    if (Math.abs(mLeftMotor.getAppliedOutput()) > 0.1){
       System.out.println(mLeftMotor.getAppliedOutput());
       stop();
     }
@@ -44,7 +45,7 @@ public class IntakeSubsystem extends SubsystemBase {
     
   }
   void L2(){
-    if (mLeftMotor.getAppliedOutput() > 0.1){
+    if (Math.abs(mLeftMotor.getAppliedOutput()) > 0.1){
       System.out.println(mLeftMotor.getAppliedOutput());
       stop();
     }
@@ -71,6 +72,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // sus
   }
 }

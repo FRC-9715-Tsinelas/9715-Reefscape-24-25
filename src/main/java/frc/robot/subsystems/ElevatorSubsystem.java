@@ -32,7 +32,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax mLeftMotor = new SparkMax(ElevatorConstants.leftMotor, MotorType.kBrushless);
   private final SparkMax mRightMotor = new SparkMax(ElevatorConstants.rightMotor, MotorType.kBrushless);
   private final RelativeEncoder mLeftEncoder;
-  private final RelativeEncoder mRightEncoder;
   private final SparkClosedLoopController mLeftPIDController;
   private PeriodicIO mPeriodicIO;
   private double prevUpdateTime = Timer.getFPGATimestamp();
@@ -51,8 +50,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     // https://docs.revrobotics.com/revlib/spark/closed-loop/position-control-mode
     mLeftMotor.configure(elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     
-    // RIGHT ELEVATOR MOTOR
-    mRightEncoder = mRightMotor.getEncoder();
+    mRightMotor.getEncoder();
     mRightMotor.configure(elevatorConfig.follow(mLeftMotor, true), ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     // TRAPEZOID PROFILE

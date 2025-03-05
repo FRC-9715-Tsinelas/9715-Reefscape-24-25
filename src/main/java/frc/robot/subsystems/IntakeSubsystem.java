@@ -24,6 +24,12 @@ public class IntakeSubsystem extends SubsystemBase {
   private final SparkMax mLeftMotor = new SparkMax(IntakeConstants.intakeleftMotor, MotorType.kBrushless);
   private final SparkMax mRightMotor = new SparkMax(IntakeConstants.intakerightMotor, MotorType.kBrushless);
   private final LaserCan lc = new LaserCan(IntakeConstants.laserCan);
+
+  final int L1 = 1;
+  final int L2 = 2;
+  final int STOP = 0;
+  final int STOWING = 3;
+  int status = STOP;
   /** Creates a new IntakeSubsystem. */
 
   public IntakeSubsystem() {
@@ -45,8 +51,7 @@ public class IntakeSubsystem extends SubsystemBase {
   // L1 and L2 SEND OUT CORAL.
   // periodic() checks for CORAL INPUT.
   void L1(){
-    if (mLeftMotor.getAppliedOutput() > 0.1){
-      System.out.println(mLeftMotor.getAppliedOutput());
+    if (status != STOP) {
       stop();
     }
     else {
@@ -56,8 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
     
   }
   void L2(){
-    if (mLeftMotor.getAppliedOutput() > 0.1){
-      System.out.println(mLeftMotor.getAppliedOutput());
+    if (status != STOP){
       stop();
     }
     else{
@@ -68,6 +72,7 @@ public class IntakeSubsystem extends SubsystemBase {
   void stop(){
     mLeftMotor.set(0);
     mRightMotor.set(0);
+    status = STOP;
   }
 
   public Command scoreL1(){

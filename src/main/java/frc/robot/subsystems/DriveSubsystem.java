@@ -89,11 +89,11 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command driveArcadeCommand(DriveSubsystem driveSubsystem, DoubleSupplier xSpeed, DoubleSupplier zRotation) {
+  public Command driveArcadeCommand(DoubleSupplier xSpeed, DoubleSupplier zRotation) {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return Commands.run(
-        () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble()), driveSubsystem);
+        () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble()), this);
   }
   
 

@@ -12,6 +12,8 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkBaseConfig;
 
+import au.grapplerobotics.LaserCan;
+import au.grapplerobotics.ConfigurationFailedException;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
@@ -21,6 +23,7 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSubsystem extends SubsystemBase {
   private final SparkMax mLeftMotor = new SparkMax(IntakeConstants.intakeleftMotor, MotorType.kBrushless);
   private final SparkMax mRightMotor = new SparkMax(IntakeConstants.intakerightMotor, MotorType.kBrushless);
+  private final LaserCan lc = new LaserCan(IntakeConstants.laserCan);
   /** Creates a new IntakeSubsystem. */
 
   public IntakeSubsystem() {
@@ -31,7 +34,16 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeConfig.inverted(true);
     mRightMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
+    try {
+      lc.setRangingMode(LaserCan.RangingMode.SHORT);
+      lc.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
+      lc.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
+    } catch (ConfigurationFailedException e) {
+      System.out.println("Configuration failed! " + e);
+    }
   }
+  // L1 and L2 SEND OUT CORAL.
+  // periodic() checks for CORAL INPUT.
   void L1(){
     if (mLeftMotor.getAppliedOutput() > 0.1){
       System.out.println(mLeftMotor.getAppliedOutput());
@@ -68,9 +80,18 @@ public class IntakeSubsystem extends SubsystemBase {
     return run(() -> L2());
   }
   
-
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // If coral present, run intake slowly to secure it.
+    LaserCan.Measurement m;
+    if ((m = lc.getMeasurement()) != null
+        && m.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT
+        && m.distance_mm <= IntakeConstants.coralDistanceThresholdMm )
+    {
+      mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
+      mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
+    } else {
+      System.out.println("Target out of range OR invalid measurement");
+    }
   }
 }

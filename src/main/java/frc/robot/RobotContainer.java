@@ -69,9 +69,22 @@ public class RobotContainer {
     m_driverController.x().onTrue(
       elevatorSubsystem.setElevatorPower(0.1)
     );
+    // ps4Controller.triangle().onTrue(
+    //   elevatorSubsystem.goToElevatorL2()
+    // );
+    // ps4Controller.cross().onTrue(
+    //   elevatorSubsystem.goToElevatorStow()
+    // );
+    // ps4Controller.square().onTrue(
+    //   intakeSubsystem.scoreL1()
+    // );
+    // ps4Controller.circle().onTrue(
+    //   intakeSubsystem.scoreL2()
+    // );
     m_driverController.a().onTrue(
       elevatorSubsystem.goToElevatorL2()
     );
+
     m_driverController.y().onTrue(
       elevatorSubsystem.stopElevator()
     );
@@ -85,8 +98,6 @@ public class RobotContainer {
       intakeSubsystem.scoreL2()
     );
 
-
-    
   }
 
   /**

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -17,14 +18,12 @@ import au.grapplerobotics.ConfigurationFailedException;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.IntakeConstants;
 
 
 public class IntakeSubsystem extends SubsystemBase {
   private final SparkMax mLeftMotor = new SparkMax(IntakeConstants.intakeleftMotor, MotorType.kBrushless);
   private final SparkMax mRightMotor = new SparkMax(IntakeConstants.intakerightMotor, MotorType.kBrushless);
-  private final LaserCan lc = new LaserCan(IntakeConstants.laserCan);
 
   final int L1 = 1;
   final int L2 = 2;
@@ -32,29 +31,52 @@ public class IntakeSubsystem extends SubsystemBase {
   final int STOWING = 3;
   final int STOWED = 4;
   int status = EMPTY;
+
+  private final LaserCan mLaserCAN = new LaserCan(IntakeConstants.kLaserId);
+  private PeriodicIO mPeriodicIO;
   /** Creates a new IntakeSubsystem. */
 
   public IntakeSubsystem() {
+    mPeriodicIO = new PeriodicIO();
     SparkMaxConfig intakeConfig = new SparkMaxConfig();
     intakeConfig.idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(IntakeConstants.kMaxCurrent);
     mLeftMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     intakeConfig.inverted(true);
     mRightMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
     try {
-      lc.setRangingMode(LaserCan.RangingMode.SHORT);
-      lc.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
-      lc.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
+      mLaserCAN.setRangingMode(LaserCan.RangingMode.SHORT);
+      mLaserCAN.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
+      mLaserCAN.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
     } catch (ConfigurationFailedException e) {
       System.out.println("Configuration failed! " + e);
     }
   }
-  // L1 and L2 SEND OUT CORAL.
-  // periodic() checks for CORAL INPUT.
+  private static class PeriodicIO {
+    int index_debounce = 0;
+
+    LaserCan.Measurement measurement;
+  }
+  
+  @Override
+  public void periodic() {
+    mPeriodicIO.measurement = mLaserCAN.getMeasurement();
+    if ((mPeriodicIO.measurement) != null
+        && mPeriodicIO.measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT
+        && mPeriodicIO.measurement.distance_mm <= IntakeConstants.coralDistanceThresholdMm )
+    {
+      mPeriodicIO.index_debounce++;
+      if (mPeriodicIO.index_debounce > 10){
+        mPeriodicIO.index_debounce = 0;
+        mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
+        mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
+      }
+    }
+  }
+
   void L1(){
-    if (status == EMPTY) return;
-    if (status == L1) {
+    if (Math.abs(mLeftMotor.getAppliedOutput()) > 0.1){
+      System.out.println(mLeftMotor.getAppliedOutput());
       stop();
     }
     else {
@@ -65,10 +87,10 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   void L2(){
     if (status == EMPTY) return;
-    if (status == L2){
+    if (status == L2) {
       stop();
     }
-    else{
+    else {
       mLeftMotor.set(IntakeConstants.intakeL2Speed);
       mRightMotor.set(IntakeConstants.intakeL2Speed);
     }
@@ -99,16 +121,5 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   public Command scoreL2(){
     return run(() -> L2());
-  }
-  
-  @Override
-  public void periodic() {
-    LaserCan.Measurement m;
-    if ((m = lc.getMeasurement()) != null
-        && m.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT
-        && m.distance_mm <= IntakeConstants.coralDistanceThresholdMm 
-        && status == EMPTY ) {
-      run(() -> stowCoral()).schedule();
-    }
   }
 }

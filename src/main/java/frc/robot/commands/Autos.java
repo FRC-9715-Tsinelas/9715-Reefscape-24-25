@@ -22,6 +22,7 @@ public final class Autos {
   public static final Command autoMid(DriveSubsystem d, ElevatorSubsystem e) {
     return Commands.run(() -> {
       // TODO: tune distances
+      // target: 130 INCHES
       d.driveArcadeCommand(() -> 0.5, () -> 0.0).withTimeout(9.0).execute();
       e.elevatorL2();
     });
@@ -29,8 +30,11 @@ public final class Autos {
   public static final Command autoRight(DriveSubsystem d, ElevatorSubsystem e) {
     return Commands.run(() -> {
       // TODO: tune distances and angles
+      // target: 130 INCHES
       d.driveArcadeCommand(() -> 0.5, () -> 0.0).withTimeout(6.0).execute();
+      // target: 60 deg LEFT
       d.driveArcadeCommand(() -> 0.0, () -> -0.3).withTimeout(3.0).execute();
+      // target: 7 INCHES
       d.driveArcadeCommand(() -> 0.5, () -> 0.0).withTimeout(3.0).execute();
       e.elevatorL2();
     });
@@ -38,8 +42,11 @@ public final class Autos {
   public static final Command autoLeft(DriveSubsystem d, ElevatorSubsystem e) {
     return Commands.run(() -> {
       // TODO: tune distances and angles
+      // target: 130 INCHES
       d.driveArcadeCommand(() -> 0.5, () -> 0.0).withTimeout(6.0).execute();
+      // target: 60 deg RIGHT
       d.driveArcadeCommand(() -> 0.0, () -> 0.3).withTimeout(3.0).execute();
+      // target: 7 INCHES
       d.driveArcadeCommand(() -> 0.5, () -> 0.0).withTimeout(3.0).execute();
       e.elevatorL2();
     });

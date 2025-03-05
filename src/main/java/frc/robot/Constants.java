@@ -49,5 +49,6 @@ public final class Constants {
     public static final double intakeLL1Speed = 0.25;
     public static final double intakeLR1Speed = 0.5;
     public static final double intakeL2Speed = 0.6;
+    public static final int kLaserId = 7;
   }
 }

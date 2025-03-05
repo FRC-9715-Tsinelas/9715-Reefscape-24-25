@@ -13,15 +13,18 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkBaseConfig;
 
+import au.grapplerobotics.ConfigurationFailedException;
+import au.grapplerobotics.LaserCan;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.IntakeConstants;
 
 
 public class IntakeSubsystem extends SubsystemBase {
   private final SparkMax mLeftMotor = new SparkMax(IntakeConstants.intakeleftMotor, MotorType.kBrushless);
   private final SparkMax mRightMotor = new SparkMax(IntakeConstants.intakerightMotor, MotorType.kBrushless);
+  private final LaserCan mLaserCAN = new LaserCan(IntakeConstants.kLaserId);
   /** Creates a new IntakeSubsystem. */
 
   public IntakeSubsystem() {
@@ -31,6 +34,13 @@ public class IntakeSubsystem extends SubsystemBase {
     mLeftMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     intakeConfig.inverted(true);
     mRightMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    try {
+      mLaserCAN.setRangingMode(LaserCan.RangingMode.SHORT);
+      mLaserCAN.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
+      mLaserCAN.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
+    } catch (ConfigurationFailedException e) {
+      System.out.println("Configuration failed! " + e);
+    }
   }
 
   void L1(){
@@ -72,6 +82,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // sus
+    // eee
   }
 }

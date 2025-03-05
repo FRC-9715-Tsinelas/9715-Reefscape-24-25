@@ -47,7 +47,7 @@ public final class Constants {
     public static final int intakerightMotor = 12;
     public static final int laserCan = 13;
     public static final int kMaxCurrent = 40;
-    public static final double coralDistanceThresholdMm = 2.6 * 2.54;
+    public static final double coralDistanceThresholdMm = 2.6 * 25.4;
     public static final double intakeStowCoralTime = 1;
     public static final double intakeLL1Speed = 0.25;
     public static final double intakeLR1Speed = 0.5;

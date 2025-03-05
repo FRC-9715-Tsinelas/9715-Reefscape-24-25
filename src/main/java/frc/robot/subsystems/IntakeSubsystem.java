@@ -58,9 +58,12 @@ public class IntakeSubsystem extends SubsystemBase {
         && mPeriodicIO.measurement.distance_mm <= IntakeConstants.coralDistanceThresholdMm )
     {
       mPeriodicIO.index_debounce++;
+      if (mPeriodicIO.index_debounce > 10){
+        mPeriodicIO.index_debounce = 0;
+        mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
+        mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
+      }
       
-      mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
-      mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
   }
 
 

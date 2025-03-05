@@ -63,7 +63,7 @@ public class IntakeSubsystem extends SubsystemBase {
         mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
         mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
       }
-      
+    }
   }
 
 

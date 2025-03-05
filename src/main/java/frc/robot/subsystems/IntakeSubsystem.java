@@ -15,6 +15,7 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import au.grapplerobotics.LaserCan;
 import au.grapplerobotics.ConfigurationFailedException;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -53,7 +54,7 @@ public class IntakeSubsystem extends SubsystemBase {
   // periodic() checks for CORAL INPUT.
   void L1(){
     if (status == EMPTY) return;
-    if (status != STOWED) {
+    if (status == L1) {
       stop();
     }
     else {
@@ -64,7 +65,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   void L2(){
     if (status == EMPTY) return;
-    if (status != STOWED){
+    if (status == L2){
       stop();
     }
     else{
@@ -72,6 +73,18 @@ public class IntakeSubsystem extends SubsystemBase {
       mRightMotor.set(IntakeConstants.intakeL2Speed);
     }
   }
+
+  void stowCoral() {
+    status = STOWING;
+    mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
+    mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
+    
+    Commands.waitSeconds(IntakeConstants.intakeStowCoralTime).execute();
+    mLeftMotor.set(0);
+    mRightMotor.set(0);
+    status = STOWED;
+  }
+
   void stop(){
     mLeftMotor.set(0);
     mRightMotor.set(0);
@@ -93,12 +106,9 @@ public class IntakeSubsystem extends SubsystemBase {
     LaserCan.Measurement m;
     if ((m = lc.getMeasurement()) != null
         && m.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT
-        && m.distance_mm <= IntakeConstants.coralDistanceThresholdMm
-        && status == EMPTY )
-    {
-      mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
-      mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
-      status = STOWED;
+        && m.distance_mm <= IntakeConstants.coralDistanceThresholdMm 
+        && status == EMPTY ) {
+      run(() -> stowCoral()).schedule();
     }
   }
 }

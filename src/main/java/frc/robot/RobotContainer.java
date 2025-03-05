@@ -63,7 +63,7 @@ public class RobotContainer {
   private void configureBindings() {
     driveSubsystem.setDefaultCommand(
       driveSubsystem.driveArcadeCommand(
-        driveSubsystem, () -> m_driverController.getLeftY(), () -> -m_driverController.getRightX()));
+        () -> m_driverController.getLeftY(), () -> -m_driverController.getRightX()));
     
     // elevator
     m_driverController.x().onTrue(

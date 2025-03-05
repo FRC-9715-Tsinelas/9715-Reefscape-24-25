@@ -25,9 +25,11 @@ public class IntakeSubsystem extends SubsystemBase {
   private final SparkMax mLeftMotor = new SparkMax(IntakeConstants.intakeleftMotor, MotorType.kBrushless);
   private final SparkMax mRightMotor = new SparkMax(IntakeConstants.intakerightMotor, MotorType.kBrushless);
   private final LaserCan mLaserCAN = new LaserCan(IntakeConstants.kLaserId);
+  private PeriodicIO mPeriodicIO;
   /** Creates a new IntakeSubsystem. */
 
   public IntakeSubsystem() {
+    mPeriodicIO = new PeriodicIO();
     SparkMaxConfig intakeConfig = new SparkMaxConfig();
     intakeConfig.idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(IntakeConstants.kMaxCurrent);
@@ -42,6 +44,28 @@ public class IntakeSubsystem extends SubsystemBase {
       System.out.println("Configuration failed! " + e);
     }
   }
+  private static class PeriodicIO {
+    int index_debounce = 0;
+
+    LaserCan.Measurement measurement;
+  }
+  
+  @Override
+  public void periodic() {
+    mPeriodicIO.measurement = mLaserCAN.getMeasurement();
+    if ((mPeriodicIO.measurement) != null
+        && mPeriodicIO.measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT
+        && mPeriodicIO.measurement.distance_mm <= IntakeConstants.coralDistanceThresholdMm )
+    {
+      mPeriodicIO.index_debounce++;
+      
+      mLeftMotor.set(IntakeConstants.intakeStowCoralSpeed);
+      mRightMotor.set(IntakeConstants.intakeStowCoralSpeed);
+  }
+
+
+
+
 
   void L1(){
     if (Math.abs(mLeftMotor.getAppliedOutput()) > 0.1){
@@ -64,6 +88,7 @@ public class IntakeSubsystem extends SubsystemBase {
       mRightMotor.set(IntakeConstants.intakeL2Speed);
     }
   }
+
   void stop(){
     mLeftMotor.set(0);
     mRightMotor.set(0);
@@ -77,11 +102,5 @@ public class IntakeSubsystem extends SubsystemBase {
   }
   public Command scoreL2(){
     return run(() -> L2());
-  }
-  
-
-  @Override
-  public void periodic() {
-    // eee
   }
 }

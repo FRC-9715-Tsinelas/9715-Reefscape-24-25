@@ -50,5 +50,7 @@ public final class Constants {
     public static final double intakeLR1Speed = 0.5;
     public static final double intakeL2Speed = 0.6;
     public static final int kLaserId = 7;
+    public static final int coralDistanceThresholdMm = 75;
+    public static final double intakeStowCoralSpeed = 0.1;
   }
 }

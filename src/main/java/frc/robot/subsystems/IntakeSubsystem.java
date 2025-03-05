@@ -53,6 +53,13 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command scoreL2(){
     return run(() -> L2());
   }
+  public Command intakeStowCoral(){
+    return runOnce(() -> {
+      stowCoral();
+      Timer.delay(2);
+      stop();
+    });
+  }
   
 
   @Override

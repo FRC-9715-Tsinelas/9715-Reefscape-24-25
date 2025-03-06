@@ -25,7 +25,6 @@ import au.grapplerobotics.LaserCan;
 public class IntakeSubsystem extends SubsystemBase {
   private final SparkMax mLeftMotor = new SparkMax(IntakeConstants.intakeleftMotor, MotorType.kBrushless);
   private final SparkMax mRightMotor = new SparkMax(IntakeConstants.intakerightMotor, MotorType.kBrushless);
-  private final LaserCan lc = new LaserCan(IntakeConstants.laserCan);
   /** Creates a new IntakeSubsystem. */
   private PeriodicIO mPeriodicIO;
 
@@ -37,13 +36,6 @@ public class IntakeSubsystem extends SubsystemBase {
     mLeftMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     intakeConfig.inverted(true);
     mRightMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    try {
-      lc.setRangingMode(LaserCan.RangingMode.SHORT);
-      lc.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
-      lc.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_33MS);
-    } catch (ConfigurationFailedException e) {
-      System.out.println("Configuration failed! " + e);
-    }
   }
   private static class PeriodicIO {
     int index_debounce = 0;
@@ -133,7 +125,6 @@ public class IntakeSubsystem extends SubsystemBase {
     return runOnce(() -> {
       stowCoral();
       // Timer.delay(0.15);
-      Commands.waitUntil(() -> mPeriodicIO.bHasCoral);
       Timer.delay(0.05);
       stop();
     });
@@ -148,19 +139,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // sus
-    mPeriodicIO.measurement = lc.getMeasurement();
-    if (mPeriodicIO.measurement == null) return;
-    if (mPeriodicIO.index_debounce == 10) {
-      mPeriodicIO.index_debounce = 0;
-      if (mPeriodicIO.lastbHasCoral == mPeriodicIO.tempbHasCoral) {
-        mPeriodicIO.bHasCoral = mPeriodicIO.tempbHasCoral;
-      }
-      mPeriodicIO.lastbHasCoral = mPeriodicIO.tempbHasCoral;
-    } else {
-      mPeriodicIO.index_debounce++;
-      if (mPeriodicIO.measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT)
-        mPeriodicIO.tempbHasCoral = mPeriodicIO.measurement.distance_mm <= IntakeConstants.coralPresenceMm;
-    }
+    
   }
 }

@@ -79,8 +79,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
     double curTime = Timer.getFPGATimestamp();
     double dt = curTime - prevUpdateTime;
+    // System.out.println(mLeftPIDController.);
     prevUpdateTime = curTime;
-    if (mPeriodicIO.is_elevator_pos_control) {;
+    if (mPeriodicIO.is_elevator_pos_control) {
       // update goal
       mGoalState.position = mPeriodicIO.elevator_target;
       // elevator target is set when button is pressed

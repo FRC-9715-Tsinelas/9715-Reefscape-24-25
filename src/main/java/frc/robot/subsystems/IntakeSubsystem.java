@@ -22,8 +22,10 @@ public class IntakeSubsystem extends SubsystemBase {
   private final SparkMax mLeftMotor = new SparkMax(IntakeConstants.intakeleftMotor, MotorType.kBrushless);
   private final SparkMax mRightMotor = new SparkMax(IntakeConstants.intakerightMotor, MotorType.kBrushless);
   /** Creates a new IntakeSubsystem. */
+  private PeriodicIO mPeriodicIO;
 
   public IntakeSubsystem() {
+    
     SparkMaxConfig intakeConfig = new SparkMaxConfig();
     intakeConfig.idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(IntakeConstants.kMaxCurrent);

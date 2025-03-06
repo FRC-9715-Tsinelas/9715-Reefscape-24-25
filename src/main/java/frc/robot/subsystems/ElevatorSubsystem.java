@@ -73,6 +73,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
     if (!limitswitch.get() && (mPeriodicIO.state == ElevatorState.STOW)){
       System.out.println("Limit switch hit!");
       stop();
@@ -90,6 +91,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       mCurState = mProfile.calculate(dt, mCurState, mGoalState);
       // set PID controller to new state
       // still need to understand this
+      System.out.println(mCurState.position);
       mLeftPIDController.setReference(
         mCurState.position, 
         SparkBase.ControlType.kPosition, 

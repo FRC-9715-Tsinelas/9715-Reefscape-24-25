@@ -61,8 +61,14 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command intakeStowCoral(){
     return runOnce(() -> {
       stowCoral();
-      Timer.delay(0.2);
+      Timer.delay(0.3);
       stop();
+    });
+  }
+
+  public Command dealgae(ElevatorSubsystem es) {
+    return runOnce(() -> {
+
     });
   }
   

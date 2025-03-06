@@ -22,7 +22,7 @@ public final class Constants {
     public static final int leftBackMotor = 5;
     public static final int rightFrontMotor = 2;
     public static final int rightBackMotor = 3;
-    public static final int driveCurrentLimit = 20;
+    public static final int driveCurrentLimit = 40;
     public static final int driveVoltageCompensation = 14;
   }
   public static class ElevatorConstants {
@@ -33,8 +33,8 @@ public final class Constants {
     public static final double kI = 0.0;
     public static final double kIZone = 5.0;
     public static final double kG = 0.5;
-    public static final double kMaxVelocity = 170;
-    public static final double kMaxAcceleration = 450;
+    public static final double kMaxVelocity = 300;
+    public static final double kMaxAcceleration = 500;
     public static final int kMaxCurrent = 50;
 
     // NOTE: L1 may be lower than height to recieve coral

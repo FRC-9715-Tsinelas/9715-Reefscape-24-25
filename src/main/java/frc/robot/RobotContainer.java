@@ -94,10 +94,10 @@ public class RobotContainer {
     m_driverController.b().onTrue(
       elevatorSubsystem.goToElevatorStow()
     );
-    m_driverController.leftBumper().onTrue(
+    m_driverController.leftBumper().whileTrue(
       intakeSubsystem.scoreL1()
     );
-    m_driverController.rightBumper().onTrue(
+    m_driverController.rightBumper().whileTrue(
       intakeSubsystem.scoreL2()
     );
 

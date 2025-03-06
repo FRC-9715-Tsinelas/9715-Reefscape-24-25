@@ -44,10 +44,12 @@ public class IntakeSubsystem extends SubsystemBase {
       System.out.println("Configuration failed! " + e);
     }
   }
+
   private static class PeriodicIO {
     int index_debounce = 0;
-
     LaserCan.Measurement measurement;
+    boolean intakeisRunning = false;
+
   }
   
   @Override
@@ -67,24 +69,23 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   void L1(){
-    if (Math.abs(mLeftMotor.getAppliedOutput()) > 0.1){
-      System.out.println(mLeftMotor.getAppliedOutput());
+    if (mPeriodicIO.intakeisRunning){
       stop();
     }
     else {
       mLeftMotor.set(IntakeConstants.intakeLL1Speed);
       mRightMotor.set(IntakeConstants.intakeLR1Speed);
+      mPeriodicIO.intakeisRunning = true;
     }
-    
   }
   void L2(){
-    if (Math.abs(mLeftMotor.getAppliedOutput()) > 0.1){
-      System.out.println(mLeftMotor.getAppliedOutput());
+    if (mPeriodicIO.intakeisRunning){
       stop();
     }
-    else{
+    else {
       mLeftMotor.set(IntakeConstants.intakeL2Speed);
       mRightMotor.set(IntakeConstants.intakeL2Speed);
+      mPeriodicIO.intakeisRunning = true;
     }
   }
 

@@ -91,6 +91,7 @@ public class RobotContainer {
     m_driverController.b().onTrue(
       elevatorSubsystem.goToElevatorStow()
     );
+    // intake
     m_driverController.leftBumper().onTrue(
       intakeSubsystem.scoreL1()
     );

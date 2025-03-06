@@ -32,8 +32,8 @@ public final class Constants {
     public static final double kI = 0.0;
     public static final double kIZone = 5.0;
     public static final double kG = 0.5;
-    public static final double kMaxVelocity = 500; // was 170 -> 300
-    public static final double kMaxAcceleration = 600; // was 500
+    public static final double kMaxVelocity = 300; // was 170 -> 300
+    public static final double kMaxAcceleration = 500; // was 500
     public static final int kMaxCurrent = 38; // SAME as DRivetraion
 
     // NOTE: L1 may be lower than height to recieve coral

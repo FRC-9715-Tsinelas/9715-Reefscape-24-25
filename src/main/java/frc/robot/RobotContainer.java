@@ -36,7 +36,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final CommandPS4Controller ps4Controller = new CommandPS4Controller((OperatorConstants.kPS4Controller));
+  // private final CommandPS4Controller ps4Controller = new CommandPS4Controller((OperatorConstants.kPS4Controller));
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -69,9 +69,6 @@ public class RobotContainer {
         () -> m_driverController.getLeftY(), () -> -m_driverController.getRightX()));
     
     // elevator
-    m_driverController.x().onTrue(
-      intakeSubsystem.intakeStowCoral()
-    );
     // ps4Controller.triangle().onTrue(
     //   elevatorSubsystem.goToElevatorL2()
     // );
@@ -84,21 +81,44 @@ public class RobotContainer {
     // ps4Controller.circle().onTrue(
     //   intakeSubsystem.scoreL2()
     // );
+    m_driverController.y().onTrue(
+      intakeSubsystem.intakeStowCoral()
+    );
+    m_driverController.x().onTrue(
+      elevatorSubsystem.goToElevatorStow()
+    );
     m_driverController.a().onTrue(
+      elevatorSubsystem.goToElevatorL1()
+    );
+    m_driverController.b().onTrue(
       elevatorSubsystem.goToElevatorL2()
     );
 
-    m_driverController.y().onTrue(
+    m_driverController.povUp().onTrue(
+      elevatorSubsystem.setElevatorPower(-0.1)
+    );
+    m_driverController.povDown().onTrue(
+      elevatorSubsystem.setElevatorPower(0.1)
+    );
+    m_driverController.povRight().onTrue(
       elevatorSubsystem.stopElevator()
     );
-    m_driverController.b().onTrue(
-      elevatorSubsystem.goToElevatorStow()
+
+    // m_driverController.leftBumper().toggleOnTrue(
+    //   intakeSubsystem.scoreL1(elevatorSubsystem)
+    // );
+    m_driverController.leftBumper().toggleOnFalse(
+      intakeSubsystem.intakeStop()
     );
-    m_driverController.leftBumper().whileTrue(
-      intakeSubsystem.scoreL1()
+
+    m_driverController.rightBumper().toggleOnTrue(
+      // intakeSubsystem.scoreL2(elevatorSubsystem)
+      intakeSubsystem.score(elevatorSubsystem)
     );
-    m_driverController.rightBumper().whileTrue(
-      intakeSubsystem.scoreL2()
+    // COMMENT OUT BELOW when laserCAN is confirmed to work
+    // Or, leave for manual interruption (just have driver hold it for longer)
+    m_driverController.rightBumper().toggleOnFalse(
+      intakeSubsystem.intakeStop()
     );
 
   }

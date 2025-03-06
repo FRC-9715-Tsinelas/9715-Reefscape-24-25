@@ -36,6 +36,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private PeriodicIO mPeriodicIO;
   private double prevUpdateTime = Timer.getFPGATimestamp();
   DigitalInput limitswitch = new DigitalInput(0);
+  public int elestate = 0;
 
   public ElevatorSubsystem() {
     mPeriodicIO = new PeriodicIO();
@@ -105,19 +106,19 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   // ----------------- COMMANDS ----------------
   public Command getState() {
-    return run(() -> getstate());
+    return runOnce(() -> getstate());
   }
   public Command setElevatorPower(double power) {
-    return run(() -> setelevatorpower(power));
+    return runOnce(() -> setelevatorpower(power));
   }
   public Command goToElevatorL1() {
-    return run(() -> elevatorL1());
+    return runOnce(() -> elevatorL1());
   }
   public Command goToElevatorL2() {
-    return run(() -> elevatorL2());
+    return runOnce(() -> elevatorL2());
   }
   public Command goToElevatorStow() {
-    return run(() -> elevatorStow());
+    return runOnce(() -> elevatorStow());
   }
 
   public Command stopElevator() {
@@ -144,11 +145,15 @@ public class ElevatorSubsystem extends SubsystemBase {
     mPeriodicIO.is_elevator_pos_control = true;
     mPeriodicIO.elevator_target = ElevatorConstants.kStowHeight;
     mPeriodicIO.state = ElevatorState.STOW;
+    System.out.println("Elevator stowed");
+    elestate = 0;
   }
   public void elevatorL1() {
     mPeriodicIO.is_elevator_pos_control = true;
     mPeriodicIO.elevator_target = ElevatorConstants.kL1Height;
     mPeriodicIO.state = ElevatorState.L1;
+    System.out.println("Elevator moved to L1");
+    elestate = 1;
     
   }
   public void elevatorL2(){
@@ -156,6 +161,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     mPeriodicIO.elevator_target = ElevatorConstants.kL2Height;
     mPeriodicIO.state = ElevatorState.L2;
     System.out.println("Elevator moved to L2");
+    elestate = 2;
   }
 
 }

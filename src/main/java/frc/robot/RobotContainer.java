@@ -36,7 +36,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final CommandPS4Controller ps4Controller = new CommandPS4Controller((OperatorConstants.kPS4Controller));
+  // private final CommandPS4Controller ps4Controller = new CommandPS4Controller((OperatorConstants.kPS4Controller));
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -89,7 +89,7 @@ public class RobotContainer {
     );
 
     m_driverController.a().onTrue(
-      elevatorSubsystem.stopElevator()
+      elevatorSubsystem.goToElevatorL1()
     );
     m_driverController.x().onTrue(
       elevatorSubsystem.goToElevatorStow()
@@ -101,11 +101,19 @@ public class RobotContainer {
       elevatorSubsystem.setElevatorPower(0.1)
     );
 
-    m_driverController.leftBumper().whileTrue(
+    m_driverController.leftBumper().toggleOnTrue(
+      intakeSubsystem.scoreL1(elevatorSubsystem)
+    );
+    m_driverController.leftBumper().toggleOnFalse(
       intakeSubsystem.intakeStop()
     );
-    m_driverController.rightBumper().onTrue(
-      intakeSubsystem.scoreL2()
+
+    m_driverController.rightBumper().toggleOnTrue(
+      // intakeSubsystem.scoreL2(elevatorSubsystem)
+      intakeSubsystem.score(elevatorSubsystem)
+    );
+    m_driverController.rightBumper().toggleOnFalse(
+      intakeSubsystem.intakeStop()
     );
 
   }

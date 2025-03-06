@@ -25,7 +25,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private PeriodicIO mPeriodicIO;
 
   public IntakeSubsystem() {
-    
+    mPeriodicIO = new PeriodicIO();
     SparkMaxConfig intakeConfig = new SparkMaxConfig();
     intakeConfig.idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(IntakeConstants.kMaxCurrent);
@@ -37,46 +37,92 @@ public class IntakeSubsystem extends SubsystemBase {
     int index_debounce = 0;
     // LaserCan.Measurement measurement;
     boolean intakeisRunning = false;
-
   }
 
   void L1(){
-    stop();
+    mLeftMotor.set(0.1);
+    mRightMotor.set(0.7);
+    mPeriodicIO.intakeisRunning = true;
   }
+
   void L2(){
+    // System.out.print(mPeriodicIO.intakeisRunning);
+    // if (mPeriodicIO.intakeisRunning){
+    //   stop();
+    // }
+    // else {
     mLeftMotor.set(IntakeConstants.intakeL2Speed);
     mRightMotor.set(IntakeConstants.intakeL2Speed);
+    // }
   }
   void stop(){
     mLeftMotor.set(0);
     mRightMotor.set(0);
+    mPeriodicIO.intakeisRunning = false;
     System.out.println("Intake stopped!");
   }
   void stowCoral(){
-    mLeftMotor.set(0.2);
-    mRightMotor.set(0.2);
+    mLeftMotor.set(0.4);
+    mRightMotor.set(0.4);
   }
 
-  public Command scoreL1(){
-    return run(() -> L1());
+  public Command scoreL1(ElevatorSubsystem e){
+    return runOnce(() -> {
+      System.out.println(e.elestate);
+      L1();
+    });
   }
   public Command intakeStop(){
-    return run(() -> stop());
+    return runOnce(() -> stop());
   }
-  public Command scoreL2(){
-    return run(() -> L2());
+  public Command score(ElevatorSubsystem e) {
+    return runOnce(() -> {
+      System.out.println(e.elestate);
+      switch (e.elestate) {
+        case 0: //STOWED
+          break;
+        case 1:
+          L1();
+          System.out.println("Used l1 intake speed!");
+          break;
+        case 2:
+          L2();
+          System.out.println("Used l2 intake speed!");
+          e.elevatorStow();
+          System.out.println("Elevator stowed");
+          break;
+        default:
+          System.out.println("Invalid elevator state!");
+      }
+    });
+  }
+
+  public Command scoreL2(ElevatorSubsystem e){
+    return runOnce(() -> {
+      System.out.println(e.elestate);
+      // if (e.elestate == 1){
+      //   mLeftMotor.set(IntakeConstants.intakeLL1Speed);
+      //   mRightMotor.set(IntakeConstants.intakeLR1Speed);
+      // }
+      // else{
+      //   mLeftMotor.set(IntakeConstants.intakeL2Speed);
+      //   mRightMotor.set(IntakeConstants.intakeL2Speed);
+      // }
+      mLeftMotor.set(IntakeConstants.intakeL2Speed);
+      mRightMotor.set(IntakeConstants.intakeL2Speed);
+    }); 
   }
   public Command intakeStowCoral(){
     return runOnce(() -> {
       stowCoral();
-      Timer.delay(0.3);
+      Timer.delay(0.15);
       stop();
     });
   }
 
   public Command dealgae(ElevatorSubsystem es) {
     return runOnce(() -> {
-
+      
     });
   }
   

@@ -102,9 +102,9 @@ public class RobotContainer {
     );
 
     m_driverController.leftBumper().whileTrue(
-      intakeSubsystem.scoreL1()
+      intakeSubsystem.intakeStop()
     );
-    m_driverController.rightBumper().whileTrue(
+    m_driverController.rightBumper().onTrue(
       intakeSubsystem.scoreL2()
     );
 

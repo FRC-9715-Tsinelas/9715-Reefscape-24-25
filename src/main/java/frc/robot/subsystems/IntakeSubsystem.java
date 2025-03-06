@@ -31,6 +31,12 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeConfig.inverted(true);
     mRightMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
+  private static class PeriodicIO {
+    int index_debounce = 0;
+    // LaserCan.Measurement measurement;
+    boolean intakeisRunning = false;
+
+  }
 
   void L1(){
     stop();

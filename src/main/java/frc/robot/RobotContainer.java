@@ -88,22 +88,22 @@ public class RobotContainer {
     // m_driverController.y().toggleOnFalse(
     //   intakeSubsystem.intakeStop()
     // );
-    m_driverController.x().onTrue(
+    m_driverController.a().onTrue(
       elevatorSubsystem.goToElevatorStow()
     );
-    m_driverController.a().onTrue(
-      elevatorSubsystem.goToElevatorL1()
-    );
+    // m_driverController.x().onTrue(
+    //   elevatorSubsystem.goToElevatorL1()
+    // );
     m_driverController.b().onTrue(
       elevatorSubsystem.goToElevatorL2()
     );
 
-    m_driverController.povUp().onTrue(
-      elevatorSubsystem.setElevatorPower(-0.1)
-    );
-    m_driverController.povDown().onTrue(
-      elevatorSubsystem.setElevatorPower(0.1)
-    );
+    // m_driverController.povUp().onTrue(
+    //   elevatorSubsystem.setElevatorPower(-0.1)
+    // );
+    // m_driverController.povDown().onTrue(
+    //   elevatorSubsystem.setElevatorPower(0.1)
+    // );
     m_driverController.povRight().onTrue(
       elevatorSubsystem.stopElevator()
     );
@@ -116,7 +116,7 @@ public class RobotContainer {
     );
 
     m_driverController.leftBumper().toggleOnFalse(
-      intakeSubsystem.intakeStop()
+      intakeSubsystem.intakeStop(elevatorSubsystem)
     );
 
     m_driverController.rightBumper().toggleOnTrue(
@@ -126,7 +126,7 @@ public class RobotContainer {
     // COMMENT OUT BELOW when laserCAN is confirmed to work
     // Or, leave for manual interruption (just have driver hold it for longer)
     m_driverController.rightBumper().toggleOnFalse(
-      intakeSubsystem.intakeStop()
+      intakeSubsystem.intakeStop(elevatorSubsystem)
     );
 
   }

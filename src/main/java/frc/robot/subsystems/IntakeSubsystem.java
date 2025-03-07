@@ -73,8 +73,15 @@ public class IntakeSubsystem extends SubsystemBase {
     });
   }
 
-  public Command intakeStop(){
-    return runOnce(() -> stop());
+  public Command intakeStop(ElevatorSubsystem e){
+    return runOnce(() -> {
+      stop();
+      
+      if (e.elestate == 2 || e.elestate == 1){
+        Timer.delay(0.3);
+        e.elevatorStow();
+      }
+    });
   }
 
   public Command score(ElevatorSubsystem e) {
@@ -99,8 +106,8 @@ public class IntakeSubsystem extends SubsystemBase {
       // }
       L2();
       if (e.elestate == 2 || e.elestate == 1){
-        Timer.delay(1);
-        e.elevatorStow();
+        // Timer.delay(1);
+        // e.elevatorStow();
       }
     });
   }

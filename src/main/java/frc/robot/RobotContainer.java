@@ -43,9 +43,9 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    autoChooser.setDefaultOption("Starting pos MIDDLE", Autos.autoMid(driveSubsystem, elevatorSubsystem, intakeSubsystem));
     autoChooser.addOption("Slow Auto 0.3 for 2 sec", slowAuto);
     autoChooser.addOption("Fast Auto 0.5 for 2 sec", fastAuto);
-    autoChooser.setDefaultOption("Starting pos MIDDLE", Autos.autoMid(driveSubsystem, elevatorSubsystem, intakeSubsystem));
     autoChooser.addOption("Starting pos LEFT", Autos.autoLeft(driveSubsystem, elevatorSubsystem));
     autoChooser.addOption("Starting pos RIGHT", Autos.autoRight(driveSubsystem, elevatorSubsystem));
     autoChooser.addOption("TEST auto sequencing", Autos.autoTest(driveSubsystem,  elevatorSubsystem,intakeSubsystem));

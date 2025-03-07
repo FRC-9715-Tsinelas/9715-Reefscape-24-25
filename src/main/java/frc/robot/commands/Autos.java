@@ -18,24 +18,22 @@ public final class Autos {
     return driveSubsystem.driveArcadeCommand(() -> 0.5, () -> 0.0).withTimeout(2.0);
   }
   public static final Command slowAuto(DriveSubsystem driveSubsystem) {
-    return driveSubsystem.driveArcadeCommand(() -> 0.3, () -> 0.0).withTimeout(2.0);
+    return driveSubsystem.driveArcadeCommand(() -> 0.3, () -> 0.0).withTimeout(7.0);
   }
 
   public static final Command autoMid(DriveSubsystem d, ElevatorSubsystem e, IntakeSubsystem i) {
-    return Commands.run(() -> {
+    return Commands.runOnce(() -> {
       // TODO: tune distances
-      // d.driveArcadeCommand(() -> 0.35, () -> 0.0).withTimeout(6.0);
-      d.arcadeDrive(() -> 0.35, () -> 0.0, 6.0);
-      e.elevatorL2();
+      d.arcadeDrive(0.5, 0.0, 6.0);
+      // e.elevatorL2();
       i.L2();
       Timer.delay(1);
       i.stop();
-      e.elevatorStow();
     });
   }
   public static final Command autoTest(DriveSubsystem d, ElevatorSubsystem e, IntakeSubsystem i) {
     return Commands.run(() -> {
-      d.arcadeDrive(() -> 0.0, () -> 0.1, 0.1);
+      d.driveArcadeCommand(() -> 0.0, () -> 0.1).withTimeout(9);
       e.elevatorL1();
       i.L2();
     });

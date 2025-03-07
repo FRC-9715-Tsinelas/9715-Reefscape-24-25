@@ -62,7 +62,8 @@ public class DriveSubsystem extends SubsystemBase {
     
     config.voltageCompensation(DriveConstants.driveVoltageCompensation)
           .smartCurrentLimit(DriveConstants.driveCurrentLimit)
-          .idleMode(IdleMode.kBrake);
+          .idleMode(IdleMode.kBrake)
+          .openLoopRampRate(0.1);                                                  
     
     // set configuration to follow leader motor, which is then applied to follower motor
     config.follow(l1);
@@ -97,12 +98,14 @@ public class DriveSubsystem extends SubsystemBase {
         () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble()), this);
   }
 
-  public void arcadeDrive(DoubleSupplier xSpeed, DoubleSupplier zRot, double timeout) {
-    drive.arcadeDrive(xSpeed.getAsDouble(), zRot.getAsDouble());
-    Timer.delay(timeout);
-    drive.stopMotor();
+  // public void arcadeDrive(Double xSpeed, Double zRot, Double timeout) {
+  //   drive.arcadeDrive(xSpeed, zRot);
+  //   Timer.delay(timeout);
+  //   drive.stopMotor();
+  // }
+  public Command arcadeDrive(Double xSpeed, Double zRot, Double timeout){
+    return runOnce(() -> driveArcadeCommand(() -> xSpeed, () -> zRot)).withTimeout(timeout).andThen(() -> runOnce(() -> drive.stopMotor() ));
   }
-  
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).

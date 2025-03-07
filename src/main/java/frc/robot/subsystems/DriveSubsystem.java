@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -94,6 +95,12 @@ public class DriveSubsystem extends SubsystemBase {
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return Commands.run(
         () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble()), this);
+  }
+
+  public void arcadeDrive(DoubleSupplier xSpeed, DoubleSupplier zRot, double timeout) {
+    drive.arcadeDrive(xSpeed.getAsDouble(), zRot.getAsDouble());
+    Timer.delay(timeout);
+    drive.stopMotor();
   }
   
 

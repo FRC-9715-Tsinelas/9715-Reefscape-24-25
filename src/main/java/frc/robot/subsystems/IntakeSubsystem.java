@@ -27,11 +27,14 @@ public class IntakeSubsystem extends SubsystemBase {
   private final SparkMax mRightMotor = new SparkMax(IntakeConstants.intakerightMotor, MotorType.kBrushless);
   /** Creates a new IntakeSubsystem. */
   private PeriodicIO mPeriodicIO;
+  private double intakeCurVoltage;
+  private double intakeCurCurrent;
 
   public IntakeSubsystem() {
     mPeriodicIO = new PeriodicIO();
     SparkMaxConfig intakeConfig = new SparkMaxConfig();
     intakeConfig.idleMode(IdleMode.kBrake)
+                .voltageCompensation(IntakeConstants.intakeVoltageCompensation)
                 .smartCurrentLimit(IntakeConstants.kMaxCurrent);
     mLeftMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     intakeConfig.inverted(true);
@@ -48,24 +51,19 @@ public class IntakeSubsystem extends SubsystemBase {
     // L2();
   }
 
-  void L2(){
-    // System.out.print(mPeriodicIO.intakeisRunning);
-    // if (mPeriodicIO.intakeisRunning){
-    //   stop();
-    // }
-    // else {
+  public void L2(){
     mLeftMotor.set(IntakeConstants.intakeL2Speed);
     mRightMotor.set(IntakeConstants.intakeL2Speed);
-    // }
   }
-  void stop(){
+  public void stop(){
     mLeftMotor.set(0);
     mRightMotor.set(0);
     System.out.println("Intake stopped!");
   }
-  void stowCoral(){
-    mLeftMotor.set(0.4);
-    mRightMotor.set(0.4);
+  public void stowCoral(){
+    mLeftMotor.set(0.3);
+    
+    mRightMotor.set(0.3);
   }
 
   public Command scoreL1(ElevatorSubsystem e){
@@ -74,27 +72,35 @@ public class IntakeSubsystem extends SubsystemBase {
       L1();
     });
   }
+
   public Command intakeStop(){
     return runOnce(() -> stop());
   }
+
   public Command score(ElevatorSubsystem e) {
     return runOnce(() -> {
       System.out.println(e.elestate);
-      switch (e.elestate) {
-        case 0: // STOWED
-          break;
-        case 1:
-          L1();
-          System.out.println("Used l1 intake speed!");
-          break;
-        case 2:
-          L2();
-          System.out.println("Used l2 intake speed!");
-          e.elevatorStow();
-          System.out.println("Elevator stowed");
-          break;
-        default:
-          System.out.println("Invalid elevator state!");
+      // switch (e.elestate) {
+      //   case 0: // STOWED
+      //     break;
+      //   case 1:
+      //     L1();
+      //     System.out.println("Used l1 intake speed!");
+      //     break;
+      //   case 2:
+      //     L2();
+      //     Timer.delay(1);
+      //     System.out.println("Used l2 intake speed!");
+      //     e.elevatorStow();
+      //     System.out.println("Elevator stowed");
+      //     break;
+      //   default:
+      //     System.out.println("Invalid elevator state!");
+      // }
+      L2();
+      if (e.elestate == 2 || e.elestate == 1){
+        Timer.delay(1);
+        e.elevatorStow();
       }
     });
   }
@@ -109,9 +115,19 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command intakeStowCoral(){
     return runOnce(() -> {
       stowCoral();
-      // Timer.delay(0.15);
-      Timer.delay(0.05);
+      Timer.delay(0.15);
       stop();
+      // intakeCurVoltage = mLeftMotor.getAppliedOutput()*mLeftMotor.getBusVoltage();
+
+      // intakeCurVoltage = mLeftMotor.getBusVoltage()*mLeftMotor.getAppliedOutput();
+      // System.out.println("Current:" + intakeCurVoltage);
+      // for (int i = 0; i<=50; i++){
+      //   System.out.println(mLeftMotor.getBusVoltage()*mLeftMotor.getAppliedOutput());
+      // }
+      // if ((intakeCurVoltage - mLeftMotor.getAppliedOutput()*mLeftMotor.getBusVoltage()) > 0.5){
+      //   System.out.println("New:" + mLeftMotor.getAppliedOutput()*mLeftMotor.getBusVoltage());
+      //   System.out.println("Will stow");
+      // }
     });
   }
 
@@ -124,6 +140,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // sus
+    // System.out.println(mLeftMotor.getAppliedOutput()*mLeftMotor.getBusVoltage());
   }
 }

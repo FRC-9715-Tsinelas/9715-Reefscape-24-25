@@ -43,11 +43,12 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    autoChooser.setDefaultOption("Slow Auto 0.3 for 2 sec", slowAuto);
+    autoChooser.addOption("Slow Auto 0.3 for 2 sec", slowAuto);
     autoChooser.addOption("Fast Auto 0.5 for 2 sec", fastAuto);
-    autoChooser.addOption("Starting pos MIDDLE", Autos.autoMid(driveSubsystem, elevatorSubsystem));
+    autoChooser.setDefaultOption("Starting pos MIDDLE", Autos.autoMid(driveSubsystem, elevatorSubsystem, intakeSubsystem));
     autoChooser.addOption("Starting pos LEFT", Autos.autoLeft(driveSubsystem, elevatorSubsystem));
     autoChooser.addOption("Starting pos RIGHT", Autos.autoRight(driveSubsystem, elevatorSubsystem));
+    autoChooser.addOption("TEST auto sequencing", Autos.autoTest(driveSubsystem,  elevatorSubsystem,intakeSubsystem));
     SmartDashboard.putData("chooser boozer", autoChooser);
     SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
 
@@ -84,6 +85,9 @@ public class RobotContainer {
     m_driverController.y().onTrue(
       intakeSubsystem.intakeStowCoral()
     );
+    // m_driverController.y().toggleOnFalse(
+    //   intakeSubsystem.intakeStop()
+    // );
     m_driverController.x().onTrue(
       elevatorSubsystem.goToElevatorStow()
     );
@@ -107,14 +111,18 @@ public class RobotContainer {
     // m_driverController.leftBumper().toggleOnTrue(
     //   intakeSubsystem.scoreL1(elevatorSubsystem)
     // );
+    m_driverController.leftBumper().toggleOnTrue(
+      intakeSubsystem.score(elevatorSubsystem)
+    );
+
     m_driverController.leftBumper().toggleOnFalse(
       intakeSubsystem.intakeStop()
     );
 
     m_driverController.rightBumper().toggleOnTrue(
-      // intakeSubsystem.scoreL2(elevatorSubsystem)
       intakeSubsystem.score(elevatorSubsystem)
     );
+
     // COMMENT OUT BELOW when laserCAN is confirmed to work
     // Or, leave for manual interruption (just have driver hold it for longer)
     m_driverController.rightBumper().toggleOnFalse(

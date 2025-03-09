@@ -30,8 +30,8 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   // autonomous routines/commands
   private final Command slowAuto = Autos.slowAuto(driveSubsystem);
-  private final Command fastAuto = Autos.fastAuto(driveSubsystem);
-  
+  private final Command midAuto = Autos.midAuto(driveSubsystem, elevatorSubsystem, intakeSubsystem);
+  private final Command rightAuto = Autos.rightAuto(driveSubsystem, elevatorSubsystem, intakeSubsystem);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -43,10 +43,10 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    autoChooser.setDefaultOption("Starting pos MIDDLE", Autos.autoMid(driveSubsystem, elevatorSubsystem, intakeSubsystem));
-    autoChooser.addOption("Slow Auto 0.3 for 2 sec", slowAuto);
-    autoChooser.addOption("Fast Auto 0.5 for 2 sec", fastAuto);
-    autoChooser.addOption("Starting pos LEFT", Autos.autoLeft(driveSubsystem, elevatorSubsystem));
+    autoChooser.addOption("Starting pos MIDDLE", midAuto);
+    autoChooser.setDefaultOption("Slow Auto 0.3 for 2 sec", slowAuto);
+    // autoChooser.setDefaultOption("Fast Auto 0.5 for 2 sec", fastAuto);
+    autoChooser.addOption("Starting pos LEFT", rightAuto);
     autoChooser.addOption("Starting pos RIGHT", Autos.autoRight(driveSubsystem, elevatorSubsystem));
     autoChooser.addOption("TEST auto sequencing", Autos.autoTest(driveSubsystem,  elevatorSubsystem,intakeSubsystem));
     SmartDashboard.putData("chooser boozer", autoChooser);
@@ -98,12 +98,12 @@ public class RobotContainer {
       elevatorSubsystem.goToElevatorL2()
     );
 
-    // m_driverController.povUp().onTrue(
-    //   elevatorSubsystem.setElevatorPower(-0.1)
-    // );
-    // m_driverController.povDown().onTrue(
-    //   elevatorSubsystem.setElevatorPower(0.1)
-    // );
+    m_driverController.povUp().onTrue(
+      elevatorSubsystem.setElevatorPower(-0.1)
+    );
+    m_driverController.povDown().onTrue(
+      elevatorSubsystem.setElevatorPower(0.1)
+    );
     m_driverController.povRight().onTrue(
       elevatorSubsystem.stopElevator()
     );

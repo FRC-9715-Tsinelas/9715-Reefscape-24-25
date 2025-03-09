@@ -112,9 +112,9 @@ public class IntakeSubsystem extends SubsystemBase {
     });
   }
 
-  public Command scoreL2(ElevatorSubsystem e){
+  public Command scoreL2(){
     return runOnce(() -> {
-      System.out.println(e.elestate);
+      // System.out.println(e.elestate);
       mLeftMotor.set(IntakeConstants.intakeL2Speed);
       mRightMotor.set(IntakeConstants.intakeL2Speed);
     }); 

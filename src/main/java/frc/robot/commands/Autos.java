@@ -14,22 +14,41 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public final class Autos {
   /** Example static factory for an autonomous command. */
-  public static final Command fastAuto(DriveSubsystem driveSubsystem) {
-    return driveSubsystem.driveArcadeCommand(() -> 0.5, () -> 0.0).withTimeout(2.0);
+  public static final Command midAuto(DriveSubsystem d, ElevatorSubsystem e, IntakeSubsystem i) {
+    return d.driveArcadeCommand(() -> -0.3, () -> 0.0).withTimeout(2.0)
+      .andThen(e.goToElevatorL2())
+      .andThen(i.scoreL2()).withTimeout(1);
+      // .andThen(e.goToElevatorStow())
+      // .andThen(i.intakeStop(e));
   }
-  public static final Command slowAuto(DriveSubsystem driveSubsystem) {
-    return driveSubsystem.driveArcadeCommand(() -> 0.3, () -> 0.0).withTimeout(7.0);
+  public static final Command slowAuto(DriveSubsystem d) {
+    return d.driveArcadeCommand(() -> -0.3, () -> 0.0).withTimeout(1.5);
+      // .andThen(d.driveArcadeCommand(() -> 0.0, () -> -0.2).withTimeout(1.5));
+
+  }
+  public static final Command rightAuto(DriveSubsystem d, ElevatorSubsystem e, IntakeSubsystem i){
+    return d.driveArcadeCommand(() -> -0.3, () -> 0.0).withTimeout(1.5);
+      // .andThen(d.driveArcadeCommand(() -> 0.0, () -> 0.3)).withTimeout(1)
+      // .andThen(d.driveArcadeCommand(() -> 0.5, () -> 0.0)).withTimeout(2.5)
+      // .alongWith(e.goToElevatorL2())
+      // .andThen(i.scoreL2()).withTimeout(1)
+      // .andThen(e.goToElevatorStow())
+      // .alongWith(i.intakeStop(e)); // !!!!!!!
+
+
   }
 
+
   public static final Command autoMid(DriveSubsystem d, ElevatorSubsystem e, IntakeSubsystem i) {
-    return Commands.runOnce(() -> {
-      // TODO: tune distances
-      d.arcadeDrive(0.5, 0.0, 6.0);
-      // e.elevatorL2();
-      i.L2();
-      Timer.delay(1);
-      i.stop();
-    });
+    // return Commands.runOnce(() -> {
+    //   // TODO: tune distances
+    //   d.arcadeDrive(0.5, 0.0, 6.0);
+    //   // e.elevatorL2();
+    //   i.L2();
+    //   Timer.delay(1);
+    //   i.stop();
+    // });
+    return d.arcadeDrive(0.5, 0.0, 6.0);
   }
   public static final Command autoTest(DriveSubsystem d, ElevatorSubsystem e, IntakeSubsystem i) {
     return Commands.run(() -> {

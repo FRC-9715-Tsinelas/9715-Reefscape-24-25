@@ -15,9 +15,16 @@ import frc.robot.subsystems.IntakeSubsystem;
 public final class Autos {
   /** Example static factory for an autonomous command. */
   public static final Command midAuto(DriveSubsystem d, ElevatorSubsystem e, IntakeSubsystem i) {
-    return d.driveArcadeCommand(() -> -0.3, () -> 0.0).withTimeout(2.0)
-      .andThen(e.goToElevatorL2())
-      .andThen(i.scoreL2()).withTimeout(1);
+    // return d.driveArcadeCommand(() -> -0.3, () -> 0.0).withTimeout(2.0)
+    //   .andThen(e.goToElevatorL2())
+    //   .andThen(i.scoreL2()).withTimeout(1);
+
+    return Commands.sequence(
+      d.driveArcadeCommand(() -> -0.3, () -> 0.0).withTimeout(2.0),
+      e.goToElevatorL2(),
+      i.scoreL2().withTimeout(1)
+    );
+
       // .andThen(e.goToElevatorStow())
       // .andThen(i.intakeStop(e));
   }

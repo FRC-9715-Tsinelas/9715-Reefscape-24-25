@@ -21,7 +21,7 @@ public final class Constants {
     public static final int leftBackMotor = 5;
     public static final int rightFrontMotor = 2;
     public static final int rightBackMotor = 3;
-    public static final int driveCurrentLimit = 38;
+    public static final int driveCurrentLimit = 50;
     public static final int driveVoltageCompensation = 14;
   }
   public static class ElevatorConstants {

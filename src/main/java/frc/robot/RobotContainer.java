@@ -30,7 +30,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   // autonomous routines/commands
   private final Command slowAuto = Autos.slowAuto(driveSubsystem);
-  private final Command midAuto = Autos.midAuto(driveSubsystem, elevatorSubsystem, intakeSubsystem);
+  private final Command midAuto = Autos.autoMid(driveSubsystem, elevatorSubsystem, intakeSubsystem);
   private final Command rightAuto = Autos.rightAuto(driveSubsystem, elevatorSubsystem, intakeSubsystem);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -43,8 +43,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    autoChooser.addOption("Starting pos MIDDLE", midAuto);
-    autoChooser.setDefaultOption("Slow Auto 0.3 for 2 sec", slowAuto);
+    autoChooser.setDefaultOption("Starting pos MIDDLE", midAuto);
+    autoChooser.addOption("Slow Auto 0.3 for 2 sec", slowAuto);
     // autoChooser.setDefaultOption("Fast Auto 0.5 for 2 sec", fastAuto);
     autoChooser.addOption("Starting pos LEFT", rightAuto);
     autoChooser.addOption("Starting pos RIGHT", Autos.autoRight(driveSubsystem, elevatorSubsystem));

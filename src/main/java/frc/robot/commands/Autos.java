@@ -22,7 +22,7 @@ public final class Autos {
       // .andThen(i.intakeStop(e));
   }
   public static final Command slowAuto(DriveSubsystem d) {
-    return d.driveArcadeCommand(() -> -0.3, () -> 0.0).withTimeout(1.5);
+    return d.driveArcadeCommand(() -> 0.5, () -> 0.0).withTimeout(1.5);
       // .andThen(d.driveArcadeCommand(() -> 0.0, () -> -0.2).withTimeout(1.5));
 
   }
@@ -48,7 +48,7 @@ public final class Autos {
     //   Timer.delay(1);
     //   i.stop();
     // });
-    return d.arcadeDrive(0.5, 0.0, 6.0);
+    return i.scoreL2();
   }
   public static final Command autoTest(DriveSubsystem d, ElevatorSubsystem e, IntakeSubsystem i) {
     return Commands.run(() -> {

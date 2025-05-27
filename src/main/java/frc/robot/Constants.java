@@ -38,8 +38,8 @@ public final class Constants {
 
     // NOTE: L1 may be lower than height to recieve coral
     public static final double kStowHeight = 0.0;
-    public static final double kL1Height = -55;
-    public static final double kL2Height = -140.0;
+    public static final double kL1Height = 55;
+    public static final double kL2Height = 140.0;
   }
   public static class IntakeConstants {
     public static final int intakeleftMotor = 10;

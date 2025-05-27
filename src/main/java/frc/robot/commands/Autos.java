@@ -48,7 +48,7 @@ public final class Autos {
     //   Timer.delay(1);
     //   i.stop();
     // });
-    return i.scoreL2();
+    return e.goToElevatorL2();
   }
   public static final Command autoTest(DriveSubsystem d, ElevatorSubsystem e, IntakeSubsystem i) {
     return Commands.run(() -> {

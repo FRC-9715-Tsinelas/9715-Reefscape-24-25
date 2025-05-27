@@ -47,7 +47,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   void L1(){
     mLeftMotor.set(IntakeConstants.intakeLL1Speed);
-    mRightMotor.set(IntakeConstants.intakeLR1Speed);
     // L2();
   }
 

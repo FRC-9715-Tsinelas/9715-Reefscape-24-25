@@ -36,7 +36,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  // private final CommandPS4Controller ps4Controller = new CommandPS4Controller((OperatorConstants.kPS4Controller));
+  private final CommandPS4Controller ps4Controller = new CommandPS4Controller((OperatorConstants.kPS4Controller));
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -69,31 +69,41 @@ public class RobotContainer {
       driveSubsystem.driveArcadeCommand(
         () -> m_driverController.getLeftY(), () -> -m_driverController.getRightX()));
     
-    // elevator
-    // ps4Controller.triangle().onTrue(
-    //   elevatorSubsystem.goToElevatorL2()
-    // );
-    // ps4Controller.cross().onTrue(
-    //   elevatorSubsystem.goToElevatorStow()
-    // );
-    // ps4Controller.square().onTrue(
-    //   intakeSubsystem.scoreL1()
-    // );
-    // ps4Controller.circle().onTrue(
-    //   intakeSubsystem.scoreL2()
-    // );
+    driveSubsystem.setDefaultCommand(
+      driveSubsystem.driveArcadeCommand(
+        () -> ps4Controller.getLeftY(), () -> -ps4Controller.getRightX()));
+    
+    ps4Controller.triangle().onTrue(
+      elevatorSubsystem.goToElevatorL2()
+    );
+    ps4Controller.cross().onTrue(
+      elevatorSubsystem.goToElevatorStow()
+    );
+    ps4Controller.square().onTrue(
+      elevatorSubsystem.setElevatorPower(-0.1)
+    );
+    ps4Controller.circle().onTrue(
+      elevatorSubsystem.setElevatorPower(0.1)
+    );
+    ps4Controller.L1().toggleOnTrue(
+      intakeSubsystem.intakeStowCoral()
+    );
+    ps4Controller.R1().toggleOnTrue(
+      intakeSubsystem.scoreL2()
+    );
+
+    ps4Controller.R1().toggleOnFalse(
+      intakeSubsystem.intakeStop(elevatorSubsystem)
+    );
+
     m_driverController.y().onTrue(
       intakeSubsystem.intakeStowCoral()
     );
-    // m_driverController.y().toggleOnFalse(
-    //   intakeSubsystem.intakeStop()
-    // );
+
     m_driverController.a().onTrue(
       elevatorSubsystem.goToElevatorStow()
     );
-    // m_driverController.x().onTrue(
-    //   elevatorSubsystem.goToElevatorL1()
-    // );
+
     m_driverController.b().onTrue(
       elevatorSubsystem.goToElevatorL2()
     );
